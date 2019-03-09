@@ -80,7 +80,7 @@ Boot
          ldy   $16F8
          cpy   #$4C
          bne   @iigs
-         sty   $16F8                 ; JMP for Disk II controller
+; entry point for Disk II controller
          sta   $16F9                 ; lo byte of callback
          stx   $16FA                 ; hi byte of callback
          jmp   $1600
@@ -88,7 +88,7 @@ Boot
          ldy   $16FB
          cpy   #$4C
          bne   @unknowncontroller
-         sty   $16FB                 ; JMP for IIgs smart controller
+; entry point for IIgs smart controller
          sta   $16FC                 ; lo byte of callback
          stx   $16FD                 ; hi byte of callback
          jmp   $1600
