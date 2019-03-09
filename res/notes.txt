@@ -17,3 +17,24 @@ Tested (Gebelli):
 
 Untested (Gebelli):
 - Lazer Silk
+
+Do not work yet:
+- David's Midnight Magic (Broderbund)
+- Genetic Drift (Broderbund)
+- Red Alert (Broderbund)
+- Space Quarks (Broderbund)
+- Raster Blaster (BudgeCo)
+- Bug Attack (Cavalier)
+- Star Thief (Cavalier)
+- Juggler (IDSI)
+- Shuffleboard (IDSI)
+- Trick Shot (IDSI)
+- Quadrant 6112 (Sensible Software)
+- Frogger (Sierra)
+- Jawbreaker ][ (Sierra)
+- Lunar Leepers (Sierra)
+- Pest Patrol (Sierra)
+- Beer Run (Sirius)
+- Gamma Goblins (Sirius)
+- Orbitron (Sirius)
+- Space Eggs (Sirius)
