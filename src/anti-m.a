@@ -157,7 +157,6 @@ Tracer
          sta   $0421
          jmp   $0400
 }
-EndTracer=*
 
 PrintByID
          cmp   #STRINGCOUNT
