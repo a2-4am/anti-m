@@ -1,0 +1,204 @@
+!cpu 6502
+!ct "src/lcase.ct"
+!to "build/ANTI.M.SYSTEM",plain
+*=$2000
+
+;-------------------------------
+; Anti-M
+; a 4am hack
+; (c) 2019 by 4am
+;
+; Permission is hereby granted, free of charge, to any
+; person obtaining a copy of this software and associated
+; documentation files (the "Software"), to deal in the
+; Software without restriction, including without limitation
+; the rights to use, copy, modify, merge, publish,
+; distribute, sublicense, and/or sell copies of the
+; furnished to do so, subject to the following conditions:
+;
+; The above copyright notice and this permission notice
+; shall be included in all copies or substantial portions of
+; the Software.
+;
+; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+; KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+; WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+; PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+; OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+; OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+; OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+; SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+;
+;-------------------------------
+
+; Addresses we read/call
+MLI      =     $BF00
+KEY      =     $C000
+STROBE   =     $C010
+REBOOT   =     $FAA6
+TEXT     =     $FB2F
+HOME     =     $FC58
+COUT     =     $FDED
+
+         jsr   TEXT
+         jsr   HOME
+
+MainMenu
+         ldx   #$FF
+         txs
+         jsr   HOME
+         lda   #s_header
+         jsr   PrintByID
+         lda   #s_mainmenu
+         jsr   PrintByID
+@loop
+         bit   STROBE
+-        lda   KEY
+         bpl   -
+         bit   STROBE
+         cmp   #$8D                  ; return
+         beq   Boot
+         jsr   MLI
+         !byte $65
+         !word .quitparm
+.quitparm
+         !byte $04,$00,$00,$00,$00,$00,$00
+
+Boot
+         ldx   #0
+-        lda   Tracer,x
+         sta   $1700,x
+         inx
+         bne   -
+         ldx   #$00
+-        lda   $C600,x
+         sta   $1600,x
+         inx
+         bne   -
+         lda   #$00
+         ldx   #$17
+         ldy   $16F8
+         cpy   #$4C
+         bne   @iigs
+         sty   $16F8                 ; JMP for Disk II controller
+         sta   $16F9                 ; lo byte of callback
+         stx   $16FA                 ; hi byte of callback
+         jmp   $1600
+@iigs
+         ldy   $16FB
+         cpy   #$4C
+         bne   @unknowncontroller
+         sty   $16FB                 ; JMP for IIgs smart controller
+         sta   $16FC                 ; lo byte of callback
+         stx   $16FD                 ; hi byte of callback
+         jmp   $1600
+@unknowncontroller
+         jmp   REBOOT
+
+Tracer
+!pseudopc $1700 {
+; patch code to regain control after it loads 1 sector into $0300
+         lda   #<@callback1
+         sta   $0838
+         lda   #>@callback1
+         sta   $0839
+         jmp   $0801
+@callback1
+; duplicate bootloader from $0300 to $2300
+         ldx   #$00
+-        lda   $0300,x
+         sta   $2300,x
+         inx
+         bne   -
+; patch bootloader so it reads the pristine copy at $2300
+         lda   #$23
+         sta   $030A
+         sta   $0310
+         sta   $0316
+         sta   $031C
+; patch bootloader to regain control after it decrypts itself into $0100
+         lda   #$4C
+         sta   $0325
+         lda   #<@callback2
+         sta   $0326
+         lda   #>@callback2
+         sta   $0327
+         jmp   $0301
+@callback2
+; patch bootloader to regain control after it loads 4 sectors into $0400
+         lda   #$4C
+         sta   $01FB
+         lda   #<@callback3
+         sta   $01FC
+         lda   #>@callback3
+         sta   $01FD
+         rts
+@callback3
+; patch bootloader so it doesn't wipe main memory
+         lda   #$60
+         sta   $04E2
+; patch bootloader to regain control after it loads title screen and code into $2000+
+         lda   #$4C
+         sta   $0498
+         lda   #<@callback4
+         sta   $0499
+         lda   #>@callback4
+         sta   $049A
+; restore bytes on stack page that we patched earlier because they're checksummed soon
+         lda   #$AE
+         sta   $01FB
+         lda   #$65
+         sta   $01FC
+         lda   #$05
+         sta   $01FD
+         jmp   $01FB
+@callback4
+; patch bootloader to bypass ROM check at $6300
+         lda   #$60
+         sta   $0421
+         jmp   $0400
+}
+EndTracer=*
+
+PrintByID
+         cmp   #STRINGCOUNT
+         bcs   @exit
+         asl
+         tax
+         lda   StringTable,x
+         sta   @print+1
+         lda   StringTable+1,x
+         sta   @print+2
+@print
+         lda   $FFFF                 ; SMC
+         beq   @done
+         jsr   COUT
+         inc   @print+1
+         bne   @print
+         inc   @print+2
+         bne   @print
+@done
+         clc
+@exit
+         rts
+
+;
+; String IDs
+; (pass in accumulator to PrintByID)
+;
+s_header =     $00
+s_mainmenu =   $01
+STRINGCOUNT =  $02
+
+StringTable
+         !word @header
+         !word @mainmenu
+
+@header
+         !text "Anti-M by 4am                 2019-03-09",$00
+@mainmenu
+         !text "________________________________________",$8D
+         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D
+         !text " Insert original disk in slot 6 drive 1",$8D
+         !text $8D
+         !text "       and press <RETURN> to boot",$00

@@ -1,0 +1,19 @@
+Tested (Broderbund):
+- Choplifter
+- Dueling Digits
+- Labyrinth
+- Seafox
+- Serpentine
+- Star Blazer
+
+Tested (Gebelli):
+- Eggs-It
+- Horizon V
+- High Orbit
+- Neptune
+- Phaser Fire
+- Russki Duck
+- Zenith
+
+Untested (Gebelli):
+- Lazer Silk
