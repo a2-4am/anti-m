@@ -104,13 +104,13 @@ Tracer
          sta   $0839
          jmp   $0801
 @callback1
-; duplicate bootloader from $0300 to $2300
+; duplicate bootloader from $0300 to $0200
          ldx   #$00
 -        lda   $0300,x
          sta   $0200,x
          inx
          bne   -
-; patch bootloader so it reads the pristine copy at $2300
+; patch bootloader so it reads the pristine copy at $0200
          dec   $030A
          dec   $0310
          dec   $0316
