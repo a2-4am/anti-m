@@ -1,0 +1,53 @@
+WILDCARD =     $97
+
+;-------------------------------
+; CompareMemory subroutine
+; in:  A = page
+;      X = offset
+;      Y = string length
+;      stack = string to compare
+; #WILDCARD in search string matches any 1 byte
+; (like "." character in regular expressions)
+; out: C clear if string matches
+;        or set if not matched
+;      A,X unchanged
+;      Y clobbered
+;      $tmp zero page clobbered
+;      $cmp1 zero page clobbered
+;      $cmp2 zero page clobbered
+;      stack set to first instruction after string
+;-------------------------------
+!zone {
+CompareMemory
+         sta   cmp1+1
+         stx   cmp1
+         pla
+         sta   cmp2
+         pla
+         sta   cmp2+1
+         tax
+         tya
+         clc
+         adc   cmp2
+         bcc   +
+         inx
++        sta   tmp
+         txa
+         pha
+         lda   tmp
+         pha
+.cmp
+         lda   (cmp2),y
+         dey
+         bmi   .success
+         cmp   (cmp1),y
+         beq   .cmp
+         cmp   #WILDCARD
+         beq   .cmp
+         sec
+         !byte $24        ; hide CLC
+.success clc
+         lda   cmp1+1
+         ldx   cmp1
+         rts
+}
