@@ -20,9 +20,6 @@ IDSpiraDisc
          !byte $D0,$01               ;BNE *+$03
          bcs   @exit
 
-         lda   #s_bootspira
-         jsr   PrintByID
-
 ; patch code to regain control after it loads sectors into $B500+
          lda   #<@callback1
          sta   $0870

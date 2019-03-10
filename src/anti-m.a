@@ -137,16 +137,12 @@ PrintByID
 ;
 s_header =     $00
 s_mainmenu =   $01
-s_bootantim =  $02
-s_bootspira =  $03
-s_unkboot  =   $04
-STRINGCOUNT =  $05
+s_unkboot  =   $02
+STRINGCOUNT =  $03
 
 StringTable
          !word @header
          !word @mainmenu
-         !word @bootantim
-         !word @bootspira
          !word @unkboot
 
 @header
@@ -157,12 +153,6 @@ StringTable
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
          !text "       and press <RETURN> to boot",$8D,$00
-
-@bootantim
-         !text "Found Anti-M boot sector",$00
-
-@bootspira
-         !text "Found SpiraDisc boot sector",$00
 
 @unkboot
          !text "Unrecognised boot sector",$8D

@@ -10,9 +10,6 @@ IDAntiM
          !byte $D0,$F7     ;BNE *-7
          bcs   @exit
 
-         lda   #s_bootantim
-         jsr   PrintByID
-
 ; patch code to regain control after it loads 1 sector into $0300
          lda   #<@callback1
          sta   $0838
