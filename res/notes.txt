@@ -2,7 +2,6 @@ Untested (Gebelli):
 - Lazer Silk
 
 Do not work yet:
-- Raster Blaster (BudgeCo)
 - Bug Attack (Cavalier)
 - Star Thief (Cavalier)
 - Juggler (IDSI)
