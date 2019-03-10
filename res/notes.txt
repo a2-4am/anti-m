@@ -2,10 +2,6 @@ Untested (Gebelli):
 - Lazer Silk
 
 Do not work yet:
-- David's Midnight Magic (Broderbund)
-- Genetic Drift (Broderbund)
-- Red Alert (Broderbund)
-- Space Quarks (Broderbund)
 - Raster Blaster (BudgeCo)
 - Bug Attack (Cavalier)
 - Star Thief (Cavalier)

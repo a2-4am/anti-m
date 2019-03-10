@@ -1,0 +1,196 @@
+IDBroderbund
+; first stage is just a standard hybrid DOS 3.2/3.3 bootloader
+         lda   #8
+         ldx   #1
+         ldy   #11
+         jsr   CompareMemory
+         !byte $A2,$00     ;LDX #$00
+         !byte $BD,$00,$08 ;LDA $0800,X
+         !byte $9D,$00,$02 ;STA $0200,X
+         !byte $E8         ;INX
+         !byte $D0,$F7     ;BNE *-7
+         bcs   @exit
+
+; patch code to regain control after it loads 1 sector into $0300
+         lda   #<@BroderbundCallback
+         sta   $0838
+         lda   #>@BroderbundCallback
+         sta   $0839
+
+@exit
+         rts
+
+@BroderbundCallback
+; distinguish between different Broderbund bootloaders
+; by examining decryption routine at $0300
+         lda   $0301
+         cmp   #$A2
+         bne   @maybeDMM
+         lda   $0302
+         cmp   #$2E
+         bne   @unsupported
+         lda   $0303
+         cmp   #$9A
+         bne   @unsupported
+;
+; found Choplifter protection
+;
+; duplicate bootloader from $0300 to $0200 and our callback code to $1700
+; [must preserve Y here]
+         ldx   #$00
+-        lda   $0300,x
+         sta   $0200,x
+         lda   @copyChoplifter,x
+         sta   $1700,x
+         inx
+         bne   -
+; patch bootloader so it reads the pristine copy at $0200
+         dec   $030A
+         dec   $0310
+         dec   $0316
+         dec   $031C
+; patch bootloader to regain control after it decrypts itself into $0100
+         lda   #$4C
+         sta   $0325
+         lda   #<@choplifterCallback
+         sta   $0326
+         lda   #>@choplifterCallback
+         sta   $0327
+         jmp   $0301
+
+@maybeDMM
+         cmp   #$8C
+         bne   @unsupported
+         lda   $030B
+         cmp   #$4D
+         bne   @unsupported
+         lda   $0323
+         cmp   #$60
+         bne   @unsupported
+;
+; found David's Midnight Magic protection
+;
+; duplicate bootloader from $0300 to $2300 and our callback code to $1700
+; [must preserve Y here]
+         ldx   #$00
+-        lda   $0300,x
+         sta   $2300,x
+         lda   @copyDMM,x
+         sta   $1700,x
+         inx
+         bne   -
+         lda   #$23
+         sta   $030A
+         sta   $0320
+         lda   #$4C
+         sta   $0321
+         lda   #<@DMMCallback
+         sta   $0322
+         lda   #>@DMMCallback
+         sta   $0323
+         jmp   $0301
+; TODO
+
+@unsupported
+         jmp   Unsupported
+
+@copyChoplifter
+!pseudopc $1700 {
+@choplifterCallback
+; patch bootloader to regain control after it loads 4 sectors into $0400
+         lda   #$4C
+         sta   $01FB
+         lda   #<@choplifterCallback2
+         sta   $01FC
+         lda   #>@choplifterCallback2
+         sta   $01FD
+         rts
+
+@choplifterCallback2
+; patch bootloader so it doesn't wipe main memory
+         lda   #$60
+         sta   $04E2
+; patch bootloader to regain control
+; after it loads title screen and code into $2000+
+         lda   #$4C
+         sta   $0498
+         lda   #<@choplifterCallback3
+         sta   $0499
+         lda   #>@choplifterCallback3
+         sta   $049A
+; restore bytes on stack page that we patched earlier
+; because they're checksummed soon
+         lda   #$AE
+         sta   $01FB
+         lda   #$65
+         sta   $01FC
+         lda   #$05
+         sta   $01FD
+         jmp   $01FB
+
+@choplifterCallback3
+; patch bootloader to bypass ROM check at $6300
+         lda   #$60
+         sta   $0421
+         jmp   $0400
+}
+
+@copyDMM
+!pseudopc $1700 {
+@DMMCallback
+; patch bootloader to regain control after it loads 4 sectors into $0400
+         lda   #$4C
+         sta   $FD
+         lda   #<@DMMCallback2
+         sta   $FE
+         lda   #>@DMMCallback2
+         sta   $FF
+         rts
+
+@DMMCallback2
+; distinguish between two variants here
+; [must preserve A here]
+         sta   @restore+1
+         lda   $0406
+         cmp   #$48
+         beq   @harderVariant
+; one variant JSRs to a ROM check that exits via JMP $0606
+; on failure, which can be fooled by putting an RTS there
+; e.g. Genetic Drift, Red Alert, or Space Quarks
+;
+; patch bootloader to continue booting after ROM check fails
+         lda   #$60
+         sta   $0606
+         bne   @restore              ; always branches
+
+@harderVariant
+; this variant has a ROM check that exits via JMP $0606
+; but first uses all of $0400..$7FF as a decryption key
+; e.g. David's Midnight Magic
+;
+; patch bootloader to regain control after loading title page
+         lda   #$4C
+         sta   $0461
+         lda   #<@DMMCallback3
+         sta   $0462
+         lda   #>@DMMCallback3
+         sta   $0463
+@restore lda   #$FD                  ; SMC
+         rts
+
+@DMMCallback3
+; restore bytes that we patched earlier because they're used
+; as part of a decryption key soon, and patch bootloader to
+; bypass ROM check at $6300 (called from $8B5D)
+; [must preserve A here]
+         sta   @restore2+1
+         lda   #$60
+         sta   $0461
+         sta   $8B5D
+         lda   #$00
+         sta   $0462
+         sta   $0463
+@restore2
+         lda   #$FD                  ; SMC
+         rts
+}

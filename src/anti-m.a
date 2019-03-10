@@ -86,7 +86,7 @@ Boot
 @iigs
          ldy   $16FB
          cpy   #$4C
-         bne   @unknowncontroller
+         bne   RebootImmediately
 ; entry point for IIgs smart controller
          sta   $16FC                 ; lo byte of callback
          stx   $16FD                 ; hi byte of callback
@@ -94,8 +94,21 @@ Boot
 @unknowncontroller
          jmp   REBOOT
 
+Unsupported
+         lda   $C082
+         jsr   TEXT
+         jsr   HOME
+         lda   #s_unsupported
+         jsr   PrintByID
+         bit   STROBE
+-        lda   KEY
+         bpl   -
+         bit   STROBE
+RebootImmediately
+         jmp   REBOOT
+
 Tracer
-         jsr   IDChoplifter
+         jsr   IDBroderbund
          bcc   @jmpboot
          jsr   IDSpiraDisc
          bcc   @jmpboot
@@ -136,11 +149,13 @@ PrintByID
 ;
 s_header =     $00
 s_mainmenu =   $01
-STRINGCOUNT =  $02
+s_unsupported =$02
+STRINGCOUNT =  $03
 
 StringTable
          !word @header
          !word @mainmenu
+         !word @unsupported
 
 @header
          !text "Anti-M by 4am                 2019-03-10",$00
@@ -150,7 +165,10 @@ StringTable
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
          !text "       and press <RETURN> to boot",$00
+@unsupported
+         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D
+         !text "        Unsupported game (sorry)",$00
 
          !src  "src/compare.a"
-         !src  "src/idchoplifter.a"
+         !src  "src/idbroderbund.a"
          !src  "src/idspiradisc.a"
