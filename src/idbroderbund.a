@@ -1,3 +1,27 @@
+; Broderbund & Gebelli tracers
+; written by 4am
+;
+; tested on
+; - Choplifter (Broderbund)
+; - David's Midnight Magic (Broderbund)
+; - Dueling Digits (Broderbund)
+; - Genetic Drift (Broderbund)
+; - Labyrinth (Broderbund)
+; - Red Alert (Broderbund)
+; - Seafox (Broderbund)
+; - Serpentine (Broderbund)
+; - Sky Blazer (Broderbund)
+; - Space Quarks (Broderbund)
+; - Star Blazer (Broderbund)
+; - Eggs-It (Gebelli)
+; - High Orbit (Gebelli)
+; - Horizon V (Gebelli)
+; - Lazer Silk (Gebelli)
+; - Neptune (Gebelli)
+; - Phaser Fire (Gebelli)
+; - Russki Duck (Gebelli)
+; - Zenith (Gebelli)
+;
 IDBroderbund
 ; first stage is just a standard hybrid DOS 3.2/3.3 bootloader
          lda   #8

@@ -1,13 +1,12 @@
-;-------------------------------
-; SpiraDisc support
+; SpiraDisc tracer
 ; written by qkumba
-; supports:
 ;
-; Frogger
-; Jawbreaker ][
-; Lunar Leepers
-; Pest Patrol
-
+; tested on
+; - Frogger
+; - Jawbreaker ][
+; - Lunar Leepers
+; - Pest Patrol
+;
 IDSpiraDisc
          lda   #8
          ldx   #1

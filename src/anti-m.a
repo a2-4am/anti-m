@@ -92,8 +92,14 @@ Boot
          stx   $16FD                 ; hi byte of callback
          jmp   $1600
 @unknowncontroller
-         jmp   REBOOT
+         jmp   RebootImmediately
 
+Tracer
+         jsr   IDBroderbund
+         bcc   BeginTheBoot
+         jsr   IDSpiraDisc
+         bcc   BeginTheBoot
+; [execution falls through here]
 Unsupported
          lda   $C082
          jsr   TEXT
@@ -107,14 +113,7 @@ Unsupported
 RebootImmediately
          jmp   REBOOT
 
-Tracer
-         jsr   IDBroderbund
-         bcc   @jmpboot
-         jsr   IDSpiraDisc
-         bcc   @jmpboot
-         ;... others ...
-
-@jmpboot
+BeginTheBoot
          sec ;match boot-time flags and registers
          lda   #1
          ldy   #0
