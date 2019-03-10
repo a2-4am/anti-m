@@ -24,9 +24,7 @@ IDChoplifter
          ldx   #$00
 -        lda   $0300,x
          sta   $0200,x
-         inx
-         bne   -
--        lda   @copysrc,x
+         lda   @copysrc,x
          sta   $1700,x
          inx
          bne   -
