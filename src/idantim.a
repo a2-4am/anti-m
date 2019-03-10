@@ -2,7 +2,7 @@ IDAntiM
          lda   #8
          ldx   #1
          ldy   #11
-         jsr   compare
+         jsr   CompareMemory
          !byte $A2,$00     ;LDX #$00
          !byte $BD,$00,$08 ;LDA $0800,X
          !byte $9D,$00,$02 ;STA $0200,X

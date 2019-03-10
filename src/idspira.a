@@ -12,7 +12,7 @@ IDSpiraDisc
          lda   #8
          ldx   #1
          ldy   #12
-         jsr   compare
+         jsr   CompareMemory
          !byte $86,$0A               ;STA $0A
          !byte $8E,WILDCARD,WILDCARD ;STA $xxxx
          !byte $8E,WILDCARD,WILDCARD ;STA $xxxx
