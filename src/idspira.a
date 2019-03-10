@@ -1,0 +1,39 @@
+;-------------------------------
+; SpiraDisc support
+; written by qkumba
+; supports:
+;
+; Frogger
+; Jawbreaker ][
+; Lunar Leepers
+; Pest Patrol
+
+IDSpiraDisc
+         lda   #8
+         ldx   #1
+         ldy   #12
+         jsr   compare
+         !byte $86,$0A               ;STA $0A
+         !byte $8E,WILDCARD,WILDCARD ;STA $xxxx
+         !byte $8E,WILDCARD,WILDCARD ;STA $xxxx
+         !byte $90,$78               ;BCC *+$7A
+         !byte $D0,$01               ;BNE *+$03
+         bcs   @exit
+
+         lda   #s_bootspira
+         jsr   PrintByID
+
+; patch code to regain control after it loads sectors into $B500+
+         lda   #<@callback1
+         sta   $0870
+         lda   #>@callback1
+         sta   $0871
+
+@exit
+         rts
+
+@callback1
+; disable ROM checksum-failure branching
+         lda   #0
+         sta   $B845
+         jmp   $B800

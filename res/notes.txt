@@ -15,6 +15,12 @@ Tested (Gebelli):
 - Russki Duck
 - Zenith
 
+Tested (Sierra):
+- Frogger
+- Jawbreaker ][
+- Lunar Leepers
+- Pest Patrol
+
 Untested (Gebelli):
 - Lazer Silk
 
@@ -30,10 +36,6 @@ Do not work yet:
 - Shuffleboard (IDSI)
 - Trick Shot (IDSI)
 - Quadrant 6112 (Sensible Software)
-- Frogger (Sierra)
-- Jawbreaker ][ (Sierra)
-- Lunar Leepers (Sierra)
-- Pest Patrol (Sierra)
 - Beer Run (Sirius)
 - Gamma Goblins (Sirius)
 - Orbitron (Sirius)
