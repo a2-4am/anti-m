@@ -95,7 +95,7 @@ Boot
          jmp   REBOOT
 
 Tracer
-         jsr   IDAntiM
+         jsr   IDChoplifter
          bcc   @jmpboot
          jsr   IDSpiraDisc
          bcc   @jmpboot
@@ -143,14 +143,14 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M by 4am                 2019-03-09",$00
+         !text "Anti-M by 4am                 2019-03-10",$00
 @mainmenu
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
-         !text "       and press <RETURN> to boot",$8D,$00
+         !text "       and press <RETURN> to boot",$00
 
-!src "src/compare.a"
-!src "src/idantim.a"
-!src "src/idspira.a"
+         !src  "src/compare.a"
+         !src  "src/idchoplifter.a"
+         !src  "src/idspiradisc.a"

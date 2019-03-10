@@ -1,26 +1,3 @@
-Tested (Broderbund):
-- Choplifter
-- Dueling Digits
-- Labyrinth
-- Seafox
-- Serpentine
-- Star Blazer
-
-Tested (Gebelli):
-- Eggs-It
-- Horizon V
-- High Orbit
-- Neptune
-- Phaser Fire
-- Russki Duck
-- Zenith
-
-Tested (Sierra):
-- Frogger
-- Jawbreaker ][
-- Lunar Leepers
-- Pest Patrol
-
 Untested (Gebelli):
 - Lazer Silk
 

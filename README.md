@@ -20,26 +20,25 @@ then press `<RETURN>`. The game should boot normally.
 
 ## Which games are supported?
 
-Gebelli Software:
-
-- Eggs-It
-- Horizon V
-- High Orbit
-- Lazer Silk
-- Neptune
-- Phaser Fire
-- Russki Duck
-- Zenith
-
-Broderbund Software:
-
-- Choplifter (*)
-- Dueling Digits
-- Labyrinth
-- Seafox
-- Serpentine (*)
-- Sky Blazer
-- Star Blazer
+- Choplifter (Broderbund) (*)
+- Dueling Digits (Broderbund)
+- Eggs-It (Gebelli Software)
+- Frogger (On-Line Systems) (*)
+- High Orbit (Gebelli Software)
+- Horizon V (Gebelli Software)
+- Jawbreaker ][ (On-Line Systems)
+- Labyrinth (Broderbund)
+- Lazer Silk (Gebelli Software)
+- Lunar Leepers (On-Line Systems)
+- Neptune (Gebelli Software)
+- Pest Patrol (On-Line Systems)
+- Phaser Fire (Gebelli Software)
+- Russki Duck (Gebelli Software)
+- Seafox (Broderbund)
+- Serpentine (Broderbund) (*)
+- Sky Blazer (Broderbund)
+- Star Blazer (Broderbund)
+- Zenith (Gebelli Software)
 
 (*) later re-released with different copy protection. Only the first release
 requires Anti-M.
@@ -57,6 +56,6 @@ it with your favorite launcher.
 
 ## History
 
-2019-03-09
+2019-03-10
 
 - initial release
