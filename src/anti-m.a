@@ -99,8 +99,7 @@ Tracer
          bcc   @jmpboot
          jsr   IDSpiraDisc
          bcc   @jmpboot
-         lda   #s_unkboot
-         jmp   PrintByID
+         ;... others ...
 
 @jmpboot
          sec ;match boot-time flags and registers
@@ -137,13 +136,11 @@ PrintByID
 ;
 s_header =     $00
 s_mainmenu =   $01
-s_unkboot  =   $02
-STRINGCOUNT =  $03
+STRINGCOUNT =  $02
 
 StringTable
          !word @header
          !word @mainmenu
-         !word @unkboot
 
 @header
          !text "Anti-M by 4am                 2019-03-09",$00
@@ -153,10 +150,6 @@ StringTable
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
          !text "       and press <RETURN> to boot",$8D,$00
-
-@unkboot
-         !text "Unrecognised boot sector",$8D
-         !text "Exiting",$00
 
 !src "src/compare.a"
 !src "src/idantim.a"
