@@ -29,6 +29,7 @@ then press `<RETURN>`. The game should boot normally.
 - High Orbit (Gebelli)
 - Horizon V (Gebelli)
 - Jawbreaker ][ (On-Line Systems)
+- Juggler (IDSI)
 - Labyrinth (Broderbund)
 - Lazer Silk (Gebelli)
 - Lunar Leepers (On-Line Systems)
@@ -42,6 +43,7 @@ then press `<RETURN>`. The game should boot normally.
 - Sky Blazer (Broderbund)
 - Space Quarks (Broderbund)
 - Star Blazer (Broderbund)
+- Trick Shot (IDSI)
 - Zenith (Gebelli)
 
 (*) later re-released with different copy protection. Only the first release

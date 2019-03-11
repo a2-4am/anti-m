@@ -113,7 +113,6 @@ IDBroderbund
          lda   #>@DMMCallback
          sta   $0323
          jmp   $0301
-; TODO
 
 @unsupported
          jmp   Unsupported

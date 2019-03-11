@@ -46,11 +46,6 @@ tmp      =     $FC        ; byte
 
          jsr   TEXT
          jsr   HOME
-
-MainMenu
-         ldx   #$FF
-         txs
-         jsr   HOME
          lda   #s_header
          jsr   PrintByID
          lda   #s_mainmenu
@@ -69,6 +64,7 @@ MainMenu
          !byte $04,$00,$00,$00,$00,$00,$00
 
 Boot
+         jsr   HOME
          ldx   #$00
 -        lda   $C600,x
          sta   $1600,x
