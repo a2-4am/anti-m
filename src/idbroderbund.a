@@ -236,15 +236,21 @@ IDBroderbund
          lda   $33C
          cmp   #$AD
          bne   @maybeQuadrant
+         ldx   #<@SpaceEggsCallback2
+         ldy   #>@SpaceEggsCallback2
          lda   $3CC
          cmp   #$36
+         beq   @hookhybrid
+         ldx   #<@StarThiefCallback
+         ldy   #>@StarThiefCallback
+         cmp   #$41
          bne   +
+
+@hookhybrid
          lda   #$4C
          sta   $33C
-         lda   #<@SpaceEggsCallback2
-         sta   $33D
-         lda   #>@SpaceEggsCallback2
-         sta   $33E
+         stx   $33D
+         sty   $33E
          jmp   $301
 
 @maybeQuadrant
@@ -323,3 +329,12 @@ IDBroderbund
          lda   #$60
          sta   $6B3
          jmp   $400
+
+@StarThiefCallback
+         lda   #$4C
+         sta   $42C0
+         lda   #$01
+         sta   $42C1
+         lda   #$68
+         sta   $42C2
+         jmp   $4200
