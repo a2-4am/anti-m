@@ -155,7 +155,7 @@ StringTable
          !word @unsupported
 
 @header
-         !text "Anti-M by 4am                 2019-03-10",$00
+         !text "Anti-M by 4am                 2019-03-11",$00
 @mainmenu
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D

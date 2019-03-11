@@ -62,6 +62,6 @@ it with your favorite launcher.
 
 ## History
 
-2019-03-10
+2019-03-11
 
 - initial release
