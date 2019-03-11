@@ -65,6 +65,7 @@ IDSirius
          bne   @gammagoblins
          ldx   #$EA
          stx   $517
+         bne   @run1
 
 @gammagoblins
          ldx   #$4C

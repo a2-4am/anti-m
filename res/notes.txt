@@ -8,4 +8,3 @@ Do not work yet:
   ...TODO there are more undocumented opcodes
 - Star Thief (Cavalier)
   $42C0: 4C 01 68 to bypass undocumented 6502 opcodes and 6502-specific JMP behavior
-- Quadrant 6112 (Sensible Software)

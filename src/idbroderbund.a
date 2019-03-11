@@ -1,5 +1,5 @@
 ; Broderbund & Gebelli tracers
-; written by 4am
+; written by 4am and qkumba
 ;
 ; tested on
 ; - Choplifter (Broderbund)
@@ -7,10 +7,12 @@
 ; - Dueling Digits (Broderbund)
 ; - Genetic Drift (Broderbund)
 ; - Labyrinth (Broderbund)
+; - Quadrant 6112 (Sensible Software)
 ; - Red Alert (Broderbund)
 ; - Seafox (Broderbund)
 ; - Serpentine (Broderbund)
 ; - Sky Blazer (Broderbund)
+; - Space Eggs (Sirius)
 ; - Space Quarks (Broderbund)
 ; - Star Blazer (Broderbund)
 ; - Eggs-It (Gebelli)
@@ -233,7 +235,7 @@ IDBroderbund
 @SpaceEggsCallback
          lda   $33C
          cmp   #$AD
-         bne   +
+         bne   @maybeQuadrant
          lda   $3CC
          cmp   #$36
          bne   +
@@ -243,6 +245,17 @@ IDBroderbund
          sta   $33D
          lda   #>@SpaceEggsCallback2
          sta   $33E
+         jmp   $301
+
+@maybeQuadrant
+         cmp   #$3B
+         bne   +
+         lda   #$4C xor $99
+         sta   $39A
+         lda   #<@QuadrantCallback xor $99
+         sta   $39B
+         lda   #>@QuadrantCallback xor $99
+         sta   $39C
          jmp   $301
 
 @SpaceEggsCallback2
@@ -305,3 +318,8 @@ IDBroderbund
          rts
 }
 @SpaceEggsCallback3_e
+
+@QuadrantCallback
+         lda   #$60
+         sta   $6B3
+         jmp   $400
