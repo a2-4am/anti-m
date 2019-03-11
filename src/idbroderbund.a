@@ -36,10 +36,21 @@ IDBroderbund
          bcs   @exit
 
 ; patch code to regain control after it loads 1 sector into $0300
+         lda   $837
+         cmp   #$4C
+         clc
+         bne   @maybeSpaceEggs
          lda   #<@BroderbundCallback
          sta   $0838
          lda   #>@BroderbundCallback
          sta   $0839
+         bne   @exit
+
+@maybeSpaceEggs
+         lda   #<@SpaceEggsCallback
+         sta   $0842
+         lda   #>@SpaceEggsCallback
+         sta   $0843
 
 @exit
          rts
@@ -113,6 +124,7 @@ IDBroderbund
          lda   #>@DMMCallback
          sta   $0323
          jmp   $0301
+; TODO
 
 @unsupported
          jmp   Unsupported
@@ -217,3 +229,79 @@ IDBroderbund
          lda   #$FD                  ; SMC
          rts
 }
+
+@SpaceEggsCallback
+         lda   $33C
+         cmp   #$AD
+         bne   +
+         lda   $3CC
+         cmp   #$36
+         bne   +
+         lda   #$4C
+         sta   $33C
+         lda   #<@SpaceEggsCallback2
+         sta   $33D
+         lda   #>@SpaceEggsCallback2
+         sta   $33E
+         jmp   $301
+
+@SpaceEggsCallback2
+         lda   $37E0
+         cmp   #$32
+         bne   +
+         lda   #$EA
+         sta   $3CDC
+         sta   $3CE0
+         sta   $3CE1
+         sta   $3CE7
+         sta   $3CEB
+         sta   $3CED
+         sta   $3CF1
+         sta   $3CF4
+         sta   $3CF8
+         lda   #<@SpaceEggsCallback3x
+         sta   $3CFE
+         lda   #>@SpaceEggsCallback3x
+         sta   $3CFF
+         ldy   #@SpaceEggsCallback3_e-@SpaceEggsCallback3
+-        lda   @SpaceEggsCallback3-1,y
+         sta   $300-1,y
+         dey
+         bne   -
++        jmp   $3700                 ; let it goooo...
+
+@SpaceEggsCallback3 !pseudopc $300 {
+@SpaceEggsCallback3x
+         jsr   $3700
+         pla
+         pla
+         jsr   $5700
+         lda   #$EA
+         sta   $49C3
+         sta   $49C4
+         sta   $49C8
+         sta   $49CB
+         sta   $49CE
+         sta   $49D2
+         sta   $49E3
+         sta   $49E6
+         sta   $49ED
+         sta   $49F1
+         sta   $49F7
+         sta   $4928
+         sta   $4934
+         sta   $493B
+         sta   $4949
+         sta   $494F
+         sta   $4952
+         sta   $495A
+         sta   $495E
+         sta   $4960
+         sta   $4969
+         sta   $496F
+         sta   $4976
+         sta   $497A
+         sta   $497E
+         rts
+}
+@SpaceEggsCallback3_e

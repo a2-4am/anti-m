@@ -9,4 +9,3 @@ Do not work yet:
 - Star Thief (Cavalier)
   $42C0: 4C 01 68 to bypass undocumented 6502 opcodes and 6502-specific JMP behavior
 - Quadrant 6112 (Sensible Software)
-- Space Eggs (Sirius)
