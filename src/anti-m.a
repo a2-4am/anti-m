@@ -172,4 +172,4 @@ StringTable
          !src  "src/idbroderbund.a"
          !src  "src/idspiradisc.a"
          !src  "src/ididsi.a"
-         !src  "src/sirius.a"
+         !src  "src/idsirius.a"
