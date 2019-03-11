@@ -1,5 +1,5 @@
 ; Broderbund & Gebelli tracers
-; written by 4am
+; written by 4am and qkumba
 ;
 ; tested on
 ; - Choplifter (Broderbund)
@@ -7,10 +7,12 @@
 ; - Dueling Digits (Broderbund)
 ; - Genetic Drift (Broderbund)
 ; - Labyrinth (Broderbund)
+; - Quadrant 6112 (Sensible Software)
 ; - Red Alert (Broderbund)
 ; - Seafox (Broderbund)
 ; - Serpentine (Broderbund)
 ; - Sky Blazer (Broderbund)
+; - Space Eggs (Sirius)
 ; - Space Quarks (Broderbund)
 ; - Star Blazer (Broderbund)
 ; - Eggs-It (Gebelli)
@@ -36,10 +38,21 @@ IDBroderbund
          bcs   @exit
 
 ; patch code to regain control after it loads 1 sector into $0300
+         lda   $837
+         cmp   #$4C
+         clc
+         bne   @maybeSpaceEggs
          lda   #<@BroderbundCallback
          sta   $0838
          lda   #>@BroderbundCallback
          sta   $0839
+         bne   @exit
+
+@maybeSpaceEggs
+         lda   #<@SpaceEggsCallback
+         sta   $0842
+         lda   #>@SpaceEggsCallback
+         sta   $0843
 
 @exit
          rts
@@ -113,6 +126,7 @@ IDBroderbund
          lda   #>@DMMCallback
          sta   $0323
          jmp   $0301
+; TODO
 
 @unsupported
          jmp   Unsupported
@@ -217,3 +231,110 @@ IDBroderbund
          lda   #$FD                  ; SMC
          rts
 }
+
+@SpaceEggsCallback
+         lda   $33C
+         cmp   #$AD
+         bne   @maybeQuadrant
+         ldx   #<@SpaceEggsCallback2
+         ldy   #>@SpaceEggsCallback2
+         lda   $3CC
+         cmp   #$36
+         beq   @hookhybrid
+         ldx   #<@StarThiefCallback
+         ldy   #>@StarThiefCallback
+         cmp   #$41
+         bne   +
+
+@hookhybrid
+         lda   #$4C
+         sta   $33C
+         stx   $33D
+         sty   $33E
+         jmp   $301
+
+@maybeQuadrant
+         cmp   #$3B
+         bne   +
+         lda   #$4C xor $99
+         sta   $39A
+         lda   #<@QuadrantCallback xor $99
+         sta   $39B
+         lda   #>@QuadrantCallback xor $99
+         sta   $39C
+         jmp   $301
+
+@SpaceEggsCallback2
+         lda   $37E0
+         cmp   #$32
+         bne   +
+         lda   #$EA
+         sta   $3CDC
+         sta   $3CE0
+         sta   $3CE1
+         sta   $3CE7
+         sta   $3CEB
+         sta   $3CED
+         sta   $3CF1
+         sta   $3CF4
+         sta   $3CF8
+         lda   #<@SpaceEggsCallback3x
+         sta   $3CFE
+         lda   #>@SpaceEggsCallback3x
+         sta   $3CFF
+         ldy   #@SpaceEggsCallback3_e-@SpaceEggsCallback3
+-        lda   @SpaceEggsCallback3-1,y
+         sta   $300-1,y
+         dey
+         bne   -
++        jmp   $3700                 ; let it goooo...
+
+@SpaceEggsCallback3 !pseudopc $300 {
+@SpaceEggsCallback3x
+         jsr   $3700
+         pla
+         pla
+         jsr   $5700
+         lda   #$EA
+         sta   $49C3
+         sta   $49C4
+         sta   $49C8
+         sta   $49CB
+         sta   $49CE
+         sta   $49D2
+         sta   $49E3
+         sta   $49E6
+         sta   $49ED
+         sta   $49F1
+         sta   $49F7
+         sta   $4928
+         sta   $4934
+         sta   $493B
+         sta   $4949
+         sta   $494F
+         sta   $4952
+         sta   $495A
+         sta   $495E
+         sta   $4960
+         sta   $4969
+         sta   $496F
+         sta   $4976
+         sta   $497A
+         sta   $497E
+         rts
+}
+@SpaceEggsCallback3_e
+
+@QuadrantCallback
+         lda   #$60
+         sta   $6B3
+         jmp   $400
+
+@StarThiefCallback
+         lda   #$4C
+         sta   $42C0
+         lda   #$01
+         sta   $42C1
+         lda   #$68
+         sta   $42C2
+         jmp   $4200

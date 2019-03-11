@@ -6,10 +6,3 @@ Do not work yet:
   $A2BB: 4C D4 A2 to bypass undocumented 6502 opcodes
   $A2F6: 4C 36 4D to bypass undocumented 6502 opcodes and 6502-specific JMP behavior
   ...TODO there are more undocumented opcodes
-- Star Thief (Cavalier)
-  $42C0: 4C 01 68 to bypass undocumented 6502 opcodes and 6502-specific JMP behavior
-- Quadrant 6112 (Sensible Software)
-- Beer Run (Sirius)
-- Gamma Goblins (Sirius)
-- Orbitron (Sirius)
-- Space Eggs (Sirius)
