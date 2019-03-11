@@ -1,0 +1,97 @@
+; Sirius tracer
+; written by qkumba
+;
+; tested on
+; - Beer Run
+; - Gamma Goblins
+; - Orbitron
+;
+IDSirius
+         lda   #8
+         ldx   #1
+         ldy   #18
+         jsr   CompareMemory
+         !byte $8D,$50,$C0      ;STA $C050
+         !byte $8D,$52,$C0      ;STA $C052
+         !byte $8D,$54,$C0      ;STA $C054
+         !byte $8D,WILDCARD,$C0 ;STA $C0xx
+         !byte $A6,$2B     ;LDX $2B
+         !byte $A9,$04     ;LDA #$04
+         !byte $85,$11     ;STA $11
+         bcs   @exit
+
+; patch code to regain control after it loads sectors into $400+
+         ldy   #@callback1_e-@callback1
+-        lda   @callback1-1,y
+         sta   @callback1x-1,y
+         dey
+         bne   -
+         ldx   #<@callback1x
+         stx   $087E
+         ldy   #>@callback1x
+         sty   $087F
+         lda   $86F
+         cmp   #$4C
+         clc
+         bne   @exit
+         stx   $0870
+         sty   $0871
+
+@exit
+         rts
+
+@callback1 !pseudopc $300 {
+@callback1x
+; replace undocumented opcode with stack pointer restore
+         ldx   $525
+         inx
+         bne   @orbitron
+         ldx   #$20
+         txs
+         ldx   #$A2
+         stx   $525
+         ldx   #$01
+         stx   $526
+         ldx   #$9A
+         stx   $527
+         bne   @run1
+
+@orbitron
+         ldx   $53C
+         cpx   #$85
+         bne   @unknown
+         ldx   $517
+         cpx   #$7A
+         bne   @gammagoblins
+         ldx   #$EA
+         stx   $517
+
+@gammagoblins
+         ldx   #$4C
+         stx   $53C
+         ldx   #<@callback2
+         stx   $53D
+         ldx   #>@callback2
+         stx   $53E
+         bne   @run1
+
+@unknown
+@run1
+         ldx   $2B
+         jmp   $400
+
+@callback2
+         lda   #$EA
+         sta   $8F84
+         sta   $8F8F
+         sta   $8F93
+         sta   $8F98
+         sta   $8FB8
+         sta   $8FBC
+         sta   $8FD3
+         sta   $8FD8
+         sta   $8FE4
+         tsx
+         rts
+}
+@callback1_e

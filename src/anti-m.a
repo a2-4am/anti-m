@@ -97,6 +97,8 @@ Tracer
          bcc   BeginTheBoot
          jsr   IDIDSI
          bcc   BeginTheBoot
+         jsr   IDSirius
+         bcc   BeginTheBoot
 ; [execution falls through here]
 Unsupported
          lda   $C082
@@ -170,3 +172,4 @@ StringTable
          !src  "src/idbroderbund.a"
          !src  "src/idspiradisc.a"
          !src  "src/ididsi.a"
+         !src  "src/sirius.a"
