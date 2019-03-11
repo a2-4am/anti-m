@@ -4,8 +4,6 @@ Untested (Gebelli):
 Do not work yet:
 - Bug Attack (Cavalier)
 - Star Thief (Cavalier)
-- Juggler (IDSI)
-- Trick Shot (IDSI)
 - Quadrant 6112 (Sensible Software)
 - Beer Run (Sirius)
 - Gamma Goblins (Sirius)

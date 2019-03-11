@@ -1,0 +1,114 @@
+; IDSI tracer
+; written by qkumba
+;
+; tested on
+; - Juggler
+; - Trick Shot
+;
+IDIDSI
+         lda   #8
+         ldx   #1
+         ldy   #19
+         jsr   CompareMemory
+         !byte $A0,$0E     ;LDY #$0E
+         !byte $B9,$00,$08 ;LDA $0800,Y
+         !byte $49,$AA     ;EOR #$AA
+         !byte $99,$00,$08 ;STA $0800,Y
+         !byte $C8         ;INY
+         !byte $D0,$F5     ;BNE *-9
+         !byte $0A,$B1,$03 ;encoded
+         !byte $D1,$F3,$AA ;encoded
+         bcs   @exit
+
+; patch code to regain control after decryption
+         lda   #<@callback1 xor $D1
+         sta   $8ba
+         lda   #>@callback1 xor $D1
+         sta   $8bb
+@exit
+         rts
+
+@callback1
+         lda   $1057
+         cmp   #$84
+         bne   @hook2b
+         lda   #0
+         sta   $107C
+         sta   $10D4
+         lda   #$2C
+         sta   $1088
+         lda   #<@callback2
+         sta   $10F9
+         lda   #>@callback2
+         sta   $10FA
+         lda   #$33
+         bne   @patch3
+
+@hook2b
+         lda   #<@callback2
+         sta   $10DF
+         lda   #>@callback2
+         sta   $10E0
+         lda   #$3A
+
+@patch3
+         sta   @tracer2+(@tracer3-@tracer2x)+(@cb3patch+1-@tracer3x)
+         jmp   $1000
+
+@callback2
+         ldy   #@tracer2_e-@tracer2
+@copyphase2
+         lda   @tracer2-1,y
+         sta   $1C5D-1,y
+         dey
+         bne   @copyphase2
+         lda   #$5D
+         sta   $1C2D
+         lda   #$1C
+         sta   $1C2E
+         jmp   $1600
+
+@tracer2
+!pseudopc $1C5D {
+@tracer2x
+         ldy   #@tracer3_e-@tracer3
+@copyphase3
+         lda   @tracer3-1,y
+         sta   $BF00-1,y
+         dey
+         bne   @copyphase3
+         lda   #$BF
+         sta   $4FB
+         jmp   $103
+
+@tracer3
+!pseudopc $BF00 {
+@tracer3x
+         lda   #<@callback3
+         sta   $196
+         lda   #>@callback3
+         sta   $197
+         jmp   $100
+@callback3
+@cb3patch
+         lda   #$D1 ;SMC
+         sta   @cb3jump+1
+         cmp   #$3A
+         lda   #0
+         ldx   #$18
+         ldy   #$BF
+         bcs   +
+         sta   $66A
+         stx   $675
+         sty   $62E
+         bne   ++
++        sta   $671
+         stx   $67C
+         sty   $635
+++
+@cb3jump
+         jmp   $6D1 ;SMC
+}
+@tracer3_e
+}
+@tracer2_e
