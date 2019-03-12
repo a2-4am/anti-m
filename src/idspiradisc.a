@@ -30,6 +30,13 @@ IDSpiraDisc
 
 @callback1
 ; disable ROM checksum-failure branching
+         lda   $B845
+         cmp   #$5C
+         bne   +
          lda   #0
          sta   $B845
-         jmp   $B800
+; and boot PROM checksum-failure branching
+         sta   $B606
+         lda   #$24
+         sta   $B60A
++        jmp   $B800
