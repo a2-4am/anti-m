@@ -20,11 +20,14 @@ then press `<RETURN>`. The game should boot normally.
 
 ## Which games are supported?
 
+- Beer Run (Sirius)
+- Bug Attack (Cavalier)
 - Choplifter (Broderbund) (*)
 - David's Midnight Magic (Broderbund) (*)
 - Dueling Digits (Broderbund)
 - Eggs-It (Gebelli)
 - Frogger (On-Line Systems) (*)
+- Gamma Goblins (Sirius)
 - Genetic Drift (Broderbund)
 - High Orbit (Gebelli)
 - Horizon V (Gebelli)
@@ -34,15 +37,19 @@ then press `<RETURN>`. The game should boot normally.
 - Lazer Silk (Gebelli)
 - Lunar Leepers (On-Line Systems)
 - Neptune (Gebelli)
+- Orbitron (Sirius)
 - Pest Patrol (On-Line Systems)
 - Phaser Fire (Gebelli)
+- Quadrant 6112 (Sensible Software)
 - Red Alert (Broderbund)
 - Russki Duck (Gebelli)
 - Seafox (Broderbund)
 - Serpentine (Broderbund) (*)
 - Sky Blazer (Broderbund)
+- Space Eggs (Sirius)
 - Space Quarks (Broderbund)
 - Star Blazer (Broderbund)
+- Star Thief (Cavalier)
 - Trick Shot (IDSI)
 - Zenith (Gebelli)
 
@@ -62,6 +69,6 @@ it with your favorite launcher.
 
 ## History
 
-2019-03-11
+v1.0 - 2019-03-11
 
 - initial release

@@ -102,8 +102,11 @@ Tracer
 ; [execution falls through here]
 Unsupported
          lda   $C082
+         lda   $C0E8
          jsr   TEXT
          jsr   HOME
+         lda   #s_header
+         jsr   PrintByID
          lda   #s_unsupported
          jsr   PrintByID
          bit   STROBE
@@ -157,15 +160,15 @@ StringTable
          !word @unsupported
 
 @header
-         !text "Anti-M by 4am                 2019-03-11",$00
-@mainmenu
+         !text "Anti-M v1.0 by 4am            2019-03-11"
          !text "________________________________________",$8D
-         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D
+         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
+@mainmenu
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
          !text "       and press <RETURN> to boot",$00
 @unsupported
-         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D
+         !text $8D
          !text "        Unsupported game (sorry)",$00
 
          !src  "src/compare.a"
