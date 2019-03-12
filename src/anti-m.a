@@ -70,7 +70,12 @@ Boot
          sta   $1600,x
          inx
          bne   -
-         lda   #<Tracer
+         lda   $1658
+         cmp   #$D0
+         bne   +
+         lda   #$80                  ; BRA on IIGS to disable timeout
+         sta   $1658
++        lda   #<Tracer
          ldx   #>Tracer
          ldy   $16F8
          cpy   #$4C

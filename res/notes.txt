@@ -1,8 +1,2 @@
 Untested (Gebelli):
 - Lazer Silk
-
-Do not work yet:
-- Bug Attack (Cavalier)
-  $A2BB: 4C D4 A2 to bypass undocumented 6502 opcodes
-  $A2F6: 4C 36 4D to bypass undocumented 6502 opcodes and 6502-specific JMP behavior
-  ...TODO there are more undocumented opcodes

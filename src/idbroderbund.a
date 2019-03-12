@@ -2,6 +2,7 @@
 ; written by 4am and qkumba
 ;
 ; tested on
+; - Bug Attack (Cavalier)
 ; - Choplifter (Broderbund)
 ; - David's Midnight Magic (Broderbund)
 ; - Dueling Digits (Broderbund)
@@ -244,6 +245,10 @@ IDBroderbund
          ldx   #<@StarThiefCallback
          ldy   #>@StarThiefCallback
          cmp   #$41
+         beq   @hookhybrid
+         ldx   #<@BugAttackCallback
+         ldy   #>@BugAttackCallback
+         cmp   #$A1
          bne   +
 
 @hookhybrid
@@ -338,3 +343,39 @@ IDBroderbund
          lda   #$68
          sta   $42C2
          jmp   $4200
+
+@BugAttackCallback
+         ldy   #@BugAttackCallback2_e-@BugAttackCallback2
+-        lda   @BugAttackCallback2-1,y
+         sta   @BugAttackCallback2x-1,y
+         dey
+         bne   -
+         lda   #$4C
+         sta   $A2BB
+         lda   #$D4
+         sta   $A2BC
+         lda   #$A2
+         sta   $A2BD
+         lda   #$4C
+         sta   $A2F6
+         lda   #<@BugAttackCallback2x
+         sta   $A2F7
+         lda   #>@BugAttackCallback2x
+         sta   $A2F8
+         jmp   $A200
+
+@BugAttackCallback2 !pseudopc $110 {
+@BugAttackCallback2x
+         lda   #$16
+         sta   $4E06
+         lda   #$4C
+         sta   $4A78
+         lda   #$A4
+         sta   $4A79
+         lda   #$49
+         sta   $4A7A
+         lda   #$87
+         sta   $EB5
+         jmp   $4D36
+}
+@BugAttackCallback2_e
