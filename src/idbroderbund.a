@@ -249,18 +249,19 @@ IDBroderbund
          ldx   #<@BugAttackCallback
          ldy   #>@BugAttackCallback
          cmp   #$A1
-         bne   +
+         bne   @jmpdos
 
 @hookhybrid
          lda   #$4C
          sta   $33C
          stx   $33D
          sty   $33E
+@jmpdos
          jmp   $301
 
 @maybeQuadrant
          cmp   #$3B
-         bne   +
+         bne   @jmpdos
          lda   #$4C xor $99
          sta   $39A
          lda   #<@QuadrantCallback xor $99
