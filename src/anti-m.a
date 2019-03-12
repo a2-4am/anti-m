@@ -70,7 +70,14 @@ Boot
          sta   $1600,x
          inx
          bne   -
-         lda   #<Tracer
+         lda   $165C
+         cmp   #$80
+         bne   +
+         lda   #$08
+         sta   $165D
+         lda   #$B7
+         sta   $16A5
++        lda   #<Tracer
          ldx   #>Tracer
          ldy   $16F8
          cpy   #$4C
