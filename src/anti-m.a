@@ -39,12 +39,16 @@ REBOOT   =     $FAA6
 TEXT     =     $FB2F
 HOME     =     $FC58
 COUT     =     $FDED
+DEVNUM   =     $BF30
 
 cmp1     =     $F8        ; word
 cmp2     =     $FA        ; word
 tmp      =     $FC        ; byte
 
          jsr   TEXT
+         lda   DEVNUM
+         cmp   #$60
+         bne   Boot
          jsr   HOME
          lda   #s_header
          jsr   PrintByID
