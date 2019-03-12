@@ -46,12 +46,12 @@ cmp2     =     $FA        ; word
 tmp      =     $FC        ; byte
 
          jsr   TEXT
-         jsr   HOME
-         lda   #s_header
-         jsr   PrintByID
          lda   DEVNUM
          cmp   #$60
          bne   Boot
+         jsr   HOME
+         lda   #s_header
+         jsr   PrintByID
          lda   #s_mainmenu
          jsr   PrintByID
 @loop
