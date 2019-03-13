@@ -88,7 +88,7 @@ IDBoot
          tya
          bne   -
 
-@decode53 !pseudopc $16D5 {
+@decode53 !pseudopc $86D5 {
 @decode53x
          ldx   #$32
          ldy   #$00
