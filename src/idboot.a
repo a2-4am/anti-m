@@ -11,8 +11,7 @@ IDBoot
          sta   $867B
 
 ; found D5 AA 96 T00S00 D5 AA AD, proceed as 16-sector
--        clc
-         jmp   $865D
+-        jmp   $865C
 
 ; found D5 AA not-96
 ; check for out-of-order D5 AA AD
@@ -22,6 +21,19 @@ IDBoot
 ; otherwise, loop in case we will see D5 AA B5
          cmp   #$B5
          bne   -
+
+; found D5 AA B5, try to read address field
+         lda   #$60
+         sta   $8699
+         ldy   #3
+         jsr   $868F
+         lda   #$28
+         sta   $8699
+
+; non-zero track suggests copy-protection
+; proceed as 16-sector instead
+         lda   $40
+         bne   --
 
 ; found D5 AA B5, assume 13-sector
          lda   #$90
