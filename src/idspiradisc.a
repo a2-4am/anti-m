@@ -42,4 +42,7 @@ IDSpiraDisc
 ; and slot checksum-failure branching
          lda   #$FD
          sta   $BF41
+; and slot scanning entirely
+         lda   #$D0
+         sta   $B899
 +        jmp   $B800
