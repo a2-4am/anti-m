@@ -35,6 +35,8 @@
 MLI      =     $BF00
 KEY      =     $C000
 STROBE   =     $C010
+BUTTON0  =     $C061
+BUTTON1  =     $C062
 TEXT     =     $FB2F
 HOME     =     $FC58
 COUT     =     $FDED
@@ -45,9 +47,13 @@ cmp2     =     $FA        ; word
 tmp      =     $FC        ; byte
 
          jsr   TEXT
+         lda   BUTTON0
+         ora   BUTTON1
+         bmi   @showprompt
          lda   DEVNUM
          cmp   #$60
          bne   Boot
+@showprompt
          jsr   HOME
          lda   #s_header
          jsr   PrintByID
