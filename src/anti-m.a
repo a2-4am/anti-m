@@ -33,14 +33,15 @@
 
 ; Addresses we read/call
 MLI      =     $BF00
+DEVNUM   =     $BF30
 KEY      =     $C000
 STROBE   =     $C010
 BUTTON0  =     $C061
 BUTTON1  =     $C062
 TEXT     =     $FB2F
+MACHINEID =    $FBB3
 HOME     =     $FC58
 COUT     =     $FDED
-DEVNUM   =     $BF30
 
 cmp1     =     $F8        ; word
 cmp2     =     $FA        ; word
@@ -55,6 +56,12 @@ tmp      =     $FC        ; byte
          bne   Boot
 @showprompt
          jsr   HOME
+         lda   MACHINEID
+         cmp   #$06
+         beq   @haslowercase
+         lda   #$DF
+         sta   kForceLower
+@haslowercase
          lda   #s_header
          jsr   PrintByID
          lda   #s_mainmenu
@@ -148,6 +155,10 @@ PrintByID
 @print
          lda   $FFFF                 ; SMC
          beq   @done
+         cmp   #$E1
+         bcc   @noforce
+         and   kForceLower
+@noforce
          jsr   COUT
          inc   @print+1
          bne   @print
@@ -157,6 +168,8 @@ PrintByID
          clc
 @exit
          rts
+kForceLower
+         !byte $FF                   ; AND mask for lowercase letters
 
 ;
 ; String IDs
