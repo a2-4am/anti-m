@@ -66,10 +66,10 @@ IDBroderbund
          bne   @maybeDMM
          lda   $0302
          cmp   #$2E
-         bne   @unsupported
+         bne   @runanyway
          lda   $0303
          cmp   #$9A
-         bne   @unsupported
+         bne   @runanyway
 ;
 ; found Choplifter protection
 ;
@@ -94,17 +94,18 @@ IDBroderbund
          sta   $0326
          lda   #>@choplifterCallback
          sta   $0327
+@runanyway
          jmp   $0301
 
 @maybeDMM
          cmp   #$8C
-         bne   @unsupported
+         bne   @runanyway
          lda   $030B
          cmp   #$4D
-         bne   @unsupported
+         bne   @runanyway
          lda   $0323
          cmp   #$60
-         bne   @unsupported
+         bne   @runanyway
 ;
 ; found David's Midnight Magic protection
 ;
@@ -127,10 +128,6 @@ IDBroderbund
          lda   #>@DMMCallback
          sta   $0323
          jmp   $0301
-; TODO
-
-@unsupported
-         jmp   Unsupported
 
 @copyChoplifter
 !pseudopc $1700 {

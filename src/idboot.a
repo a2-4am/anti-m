@@ -4,20 +4,20 @@
 IDBoot
 ; try to determine sector type based on found boot sector
          lda   #$60
-         sta   $167B
-         jsr   $1600
+         sta   $867B
+         jsr   $8600
          bcc   +
-         lda   #$90
-         sta   $167B
+--       lda   #$90
+         sta   $867B
 
 ; found D5 AA 96 T00S00 D5 AA AD, proceed as 16-sector
 -        clc
-         jmp   $165D
+         jmp   $865D
 
 ; found D5 AA not-96
 ; check for out-of-order D5 AA AD
 +        cmp   #$AD
-         beq   -
+         beq   --
 
 ; otherwise, loop in case we will see D5 AA B5
          cmp   #$B5
@@ -25,7 +25,7 @@ IDBoot
 
 ; found D5 AA B5, assume 13-sector
          lda   #$90
-         sta   $167B
+         sta   $867B
 
 ; build 5-and-3 decoder table
          ldx   #$00
@@ -49,17 +49,17 @@ IDBoot
 
 ; patch boot PROM to recognise 13-sector instead
          lda   #$B5
-         sta   $1677
+         sta   $8677
          lda   #$9A
-         sta   $16A7
-         sty   $16B0
-         inc   $16B1
-         sty   $16C2
-         inc   $16C3
-         sty   $16D1
-         inc   $16D2
+         sta   $86A7
+         sty   $86B0
+         inc   $86B1
+         sty   $86C2
+         inc   $86C3
+         sty   $86D1
+         inc   $86D2
 -        lda   @decode53,y
-         sta   $16D5,y
+         sta   $86D5,y
          iny
          bne   -
          lda   #$02
@@ -151,6 +151,6 @@ IDBoot
 @run53
          ldx   #$60
          bcs   +
-         jmp   $165D
+         jmp   $865D
 +        jmp   ($44)
 }

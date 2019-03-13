@@ -35,7 +35,6 @@
 MLI      =     $BF00
 KEY      =     $C000
 STROBE   =     $C010
-REBOOT   =     $FAA6
 TEXT     =     $FB2F
 HOME     =     $FC58
 COUT     =     $FDED
@@ -71,36 +70,46 @@ Boot
          jsr   HOME
          ldx   #$00
 -        lda   $C600,x
-         sta   $1600,x
+         sta   $8600,x
          inx
          bne   -
-         lda   $165C
+         lda   $865C
          cmp   #$80
          bne   +
+         lda   #$18
+         sta   $865C
          lda   #$08
-         sta   $165D
-         lda   #$B7
-         sta   $16A5
+         sta   $865D
+         lda   #$F7
+         sta   $8666
+         lda   #$D9
+         sta   $8682
+         lda   #$BE
+         sta   $869D
+         ldx   #$B8
+         stx   $86A3
+         dex
+         stx   $86A5
 +        lda   #<Tracer
          ldx   #>Tracer
-         ldy   $16F8
+         ldy   $86F8
          cpy   #$4C
          bne   @iigs
 ; entry point for Disk II controller
-         sta   $16F9                 ; lo byte of callback
-         stx   $16FA                 ; hi byte of callback
+         sta   $86F9                 ; lo byte of callback
+         stx   $86FA                 ; hi byte of callback
          beq   @tryboot
 @iigs
-         ldy   $16FB
+         ldy   $86FB
          cpy   #$4C
-         bne   RebootImmediately
+         bne   @unknowncontroller
 ; entry point for IIgs smart controller
-         sta   $16FC                 ; lo byte of callback
-         stx   $16FD                 ; hi byte of callback
+         sta   $86FC                 ; lo byte of callback
+         stx   $86FD                 ; hi byte of callback
 @tryboot
          jmp   IDBoot
 @unknowncontroller
-         jmp   RebootImmediately
+         jmp   $C600
 
 Tracer
          jsr   IDBroderbund
@@ -112,21 +121,7 @@ Tracer
          jsr   IDSirius
          bcc   BeginTheBoot
 ; [execution falls through here]
-Unsupported
-         lda   $C082
-         lda   $C0E8
-         jsr   TEXT
-         jsr   HOME
-         lda   #s_header
-         jsr   PrintByID
-         lda   #s_unsupported
-         jsr   PrintByID
-         bit   STROBE
--        lda   KEY
-         bpl   -
-         bit   STROBE
-RebootImmediately
-         jmp   REBOOT
+; [and runs anyway]
 
 BeginTheBoot
          sec ;match boot-time flags and registers
@@ -163,13 +158,11 @@ PrintByID
 ;
 s_header =     $00
 s_mainmenu =   $01
-s_unsupported =$02
-STRINGCOUNT =  $03
+STRINGCOUNT =  $02
 
 StringTable
          !word @header
          !word @mainmenu
-         !word @unsupported
 
 @header
          !text "Anti-M v1.1-dev by 4am        2019-03-12"
@@ -179,9 +172,6 @@ StringTable
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
          !text "       and press <RETURN> to boot",$00
-@unsupported
-         !text $8D
-         !text "        Unsupported game (sorry)",$00
 
          !src  "src/compare.a"
          !src  "src/idbroderbund.a"

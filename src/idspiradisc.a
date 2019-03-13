@@ -39,4 +39,7 @@ IDSpiraDisc
          sta   $B606
          lda   #$24
          sta   $B60A
+; and slot checksum-failure branching
+         lda   #$FD
+         sta   $BF41
 +        jmp   $B800
