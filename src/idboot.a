@@ -1,0 +1,156 @@
+; Bootsector tracer
+; written by qkumba
+;
+IDBoot
+; try to determine sector type based on found boot sector
+         lda   #$60
+         sta   $867B
+         jsr   $8600
+         bcc   +
+--       lda   #$90
+         sta   $867B
+
+; found D5 AA 96 T00S00 D5 AA AD, proceed as 16-sector
+-        clc
+         jmp   $865D
+
+; found D5 AA not-96
+; check for out-of-order D5 AA AD
++        cmp   #$AD
+         beq   --
+
+; otherwise, loop in case we will see D5 AA B5
+         cmp   #$B5
+         bne   -
+
+; found D5 AA B5, assume 13-sector
+         lda   #$90
+         sta   $867B
+
+; build 5-and-3 decoder table
+         ldx   #$00
+         ldy   #$AB
+-        tya
+         sta   $3C
+         lsr
+         ora   $3C
+         cmp   #$FF
+         bne   +
+         cpy   #$D5
+         beq   +
+         txa
+         asl
+         asl
+         asl
+         sta   $300,y
+         inx
++        iny
+         bne   -
+
+; patch boot PROM to recognise 13-sector instead
+         lda   #$B5
+         sta   $8677
+         lda   #$9A
+         sta   $86A7
+         sty   $86B0
+         inc   $86B1
+         sty   $86C2
+         inc   $86C3
+         sty   $86D1
+         inc   $86D2
+-        lda   @decode53,y
+         sta   $86D5,y
+         iny
+         bne   -
+         lda   #$02
+         sta   $27
+         sty   $42
+         lda   #$08
+         ldx   #<@callback53
+         ldy   #>@callback53
+-        sta   $43
+         stx   $44
+         sty   $45
+         clc
+         jmp   @run53
+
+@callback53
+         lda   $8FF
+         lsr
+         lsr
+         lsr
+         tay
+         iny
+         sty   @patch53+1
+         ldx   #0
+         ldy   $8FE
+         iny
+         tya
+         bne   -
+
+@decode53 !pseudopc $16D5 {
+@decode53x
+         ldx   #$32
+         ldy   #$00
+-        lda   $300,x
+         lsr
+         lsr
+         lsr
+         sta   $3C
+         lsr
+         sta   $2A
+         lsr
+         ora   $200,x
+         sta   ($42),y
+         iny
+         lda   $333,x
+         lsr
+         lsr
+         lsr
+         lsr
+         rol   $3C
+         lsr
+         rol   $2A
+         ora   $233,x
+         sta   ($42),y
+         iny
+         lda   $366,x
+         lsr
+         lsr
+         lsr
+         lsr
+         rol   $3C
+         lsr
+         rol   $2A
+         ora   $266,x
+         sta   ($42),y
+         iny
+         lda   $2A
+         and   #7
+         ora   $299,x
+         sta   ($42),y
+         iny
+         lda   $3C
+         and   #7
+         ora   $2CC,x
+         sta   ($42),y
+         iny
+         dex
+         bpl   -
+         lda   $399
+         lsr
+         lsr
+         lsr
+         ora   $2FF
+         sta   ($42),y
+         inc   $3D
+         inc   $43
+         lda   $3D
+@patch53
+         cmp   #$01
+@run53
+         ldx   #$60
+         bcs   +
+         jmp   $865D
++        jmp   ($44)
+}
