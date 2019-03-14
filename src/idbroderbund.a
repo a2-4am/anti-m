@@ -343,6 +343,10 @@ IDBroderbund
 @QuadrantCallback
          lda   #$60
          sta   $6B3
+;work around emulator bugs
+         lda   #$00
+         sta   $733
+         sta   $73F
          jmp   $400
 
 @StarThiefCallback
