@@ -113,12 +113,12 @@ IDBroderbund
 ; [must preserve Y here]
          ldx   #$00
 -        lda   $0300,x
-         sta   $2300,x
+         sta   $3300,x
          lda   @copyDMM,x
          sta   $1700,x
          inx
          bne   -
-         lda   #$23
+         lda   #$33
          sta   $030A
          sta   $0320
          lda   #$4C
