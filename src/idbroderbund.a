@@ -225,6 +225,13 @@ IDBroderbund
          lda   #$00
          sta   $0462
          sta   $0463
+; distinguish further between variants
+; and disable a secondary protection if present
+         lda   $8BE3
+         cmp   #$30
+         bne   @restore2
+         lda   #$2C
+         sta   $8BE2
 @restore2
          lda   #$FD                  ; SMC
          rts
