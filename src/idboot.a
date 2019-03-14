@@ -5,25 +5,34 @@ IDBoot
 ; try to determine sector type based on found boot sector
          lda   #$60
          sta   $867B
-         jsr   $8600
+@patch
+         jsr   $8600 ;SMC
+         ldy   #$5C
+         sty   @patch+1
          bcc   +
---       lda   #$90
+         lda   #$90
          sta   $867B
 
 ; found D5 AA 96 T00S00 D5 AA AD, proceed as 16-sector
--        clc
-         jmp   $865D
+         bne   @patch ;always
+
+@retries
+         !byte 14 ;sectors per track+1 to cover the corner-case
 
 ; found D5 AA not-96
-; check for out-of-order D5 AA AD
+; check for out-of-order D5 AA AD, and retry in that case
 +        cmp   #$AD
-         beq   --
+         beq   @patch
 
 ; otherwise, loop in case we will see D5 AA B5
          cmp   #$B5
-         bne   -
+         bne   @patch
 
-; found D5 AA B5, assume 13-sector
+; and loop anyway in case it's a hybrid disk and we missed the D5 AA 96
+         dec   @retries
+         bne   @patch
+
+; found nothing but D5 AA B5, proceed as 13-sector
          lda   #$90
          sta   $867B
 
