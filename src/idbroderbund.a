@@ -221,7 +221,6 @@ IDBroderbund
          sta   @restore2+1
          lda   #$60
          sta   $0461
-         sta   $8B5D
          lda   #$00
          sta   $0462
          sta   $0463
@@ -229,9 +228,15 @@ IDBroderbund
 ; and disable a secondary protection if present
          lda   $8BE3
          cmp   #$30
-         bne   @restore2
+         bne   @DMMnewer
          lda   #$2C
          sta   $8BE2
+         bne   @restore2
+
+@DMMnewer
+         lda   #$60
+         sta   $8B5D
+
 @restore2
          lda   #$FD                  ; SMC
          rts
