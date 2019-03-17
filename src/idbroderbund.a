@@ -350,11 +350,16 @@ IDBroderbund
          jmp   $400
 
 @StarThiefCallback
+         ldy   #@StarThiefCallback2_e-@StarThiefCallback2
+-        lda   @StarThiefCallback2-1,y
+         sta   @StarThiefCallback2x-1,y
+         dey
+         bne   -
          lda   #$4C
          sta   $42C0
-         lda   #$01
+         lda   #<@StarThiefCallback2x
          sta   $42C1
-         lda   #$68
+         lda   #>@StarThiefCallback2x
          sta   $42C2
          jmp   $4200
 
@@ -377,6 +382,18 @@ IDBroderbund
          lda   #>@BugAttackCallback2x
          sta   $A2F8
          jmp   $A200
+
+@StarThiefCallback2 !pseudopc $110 {
+@StarThiefCallback2x
+         lda   #$4C
+         sta   $6973
+         lda   #$D2
+         sta   $6974
+         lda   #$68
+         sta   $6975
+         jmp   $6801
+}
+@StarThiefCallback2_e
 
 @BugAttackCallback2 !pseudopc $110 {
 @BugAttackCallback2x
