@@ -1,6 +1,6 @@
 ;license:BSD-3-Clause
 ;minimal open/read binary file in ProDOS filesystem
-;copyright (c) Peter Ferrie 2016-2018
+;copyright (c) Peter Ferrie 2016-2019
 !cpu 6502
 !to "build/proboot",plain
 *=$800
@@ -22,6 +22,7 @@
                 scrn2p2   = $f87b
                 dirbuf    = $1e00       ;for size-optimisation
                 PHASEOFF  = $c080
+                MOTOROFF  = $c088
                 Q6L       = $c08c
                 SETVID    = $fe93
 
@@ -146,7 +147,9 @@ blockind        ldy $ff
                 txa
                 bne readfile
 
-readdone        jsr SETVID ;undo PR#x hook
+readdone        ldx $2b
+                lda MOTOROFF, x
+                jsr SETVID ;undo PR#x hook
                 jmp $2000
 
 step1           !byte 1, $30, $28, $24, $20, $1e, $1d, $1c
@@ -253,3 +256,4 @@ checksec        ldx $2b
                 jmp goprom2
 
 !byte $D3,$C1,$CE,$A0,$C9,$CE,$C3,$AE
+!align $ff,0,0
