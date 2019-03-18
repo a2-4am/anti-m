@@ -3,7 +3,7 @@
 Boot any Apple II disk on any Apple II
 
 [Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.1/anti-m-v1.1-2019-03-16.po)
-(version **1.1**, released **2019-03-16**, requires 48K Apple ][+ or later)
+(version **1.1**, released **2019-03-16**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -93,7 +93,7 @@ v1.1 - 2019-03-16
 - remove "unsupported game" error, always continue booting
 - bypass prompt if launched from hard drive (press the open- or closed-apple
   key on startup to show the prompt)
-- minimum requirements lowered to 48K Apple ][+ (still useful for booting
+- minimum requirements lowered to 48K Apple ][ (still useful for booting
   13-sector disks)
 
 v1.0 - 2019-03-11
