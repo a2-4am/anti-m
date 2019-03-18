@@ -2,6 +2,9 @@
 
 Boot any Apple II disk on any Apple II
 
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.1/anti-m-v1.1-2019-03-16.po)
+(version **1.1**, released **2019-03-16**, requires 48K Apple ][+ or later)
+
 ## What is this?
 
 Many early Apple II games only worked on the original Apple II or Apple ][+.
