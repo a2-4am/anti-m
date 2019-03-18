@@ -22,9 +22,11 @@ VOLUME=ANTI.M
 asm:
 	mkdir -p build
 	$(ACME) -r build/anti-m.lst src/anti-m.a
-	cp res/work.bin $(BUILDDISK)
+	cp res/work.bin "$(BUILDDISK)"
 	cp res/_FileInformation.txt build/ >>build/log
 	$(CADIUS) ADDFILE "$(BUILDDISK)" "/${VOLUME}/" "build/ANTI.M.SYSTEM" >>build/log
+	$(ACME) -r build/proboot.lst src/proboot.a
+	bin/changebootloader.py "$(BUILDDISK)" build/proboot
 
 clean:
 	rm -rf build/
