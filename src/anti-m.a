@@ -132,6 +132,8 @@ Tracer
          bcc   BeginTheBoot
          jsr   IDSirius
          bcc   BeginTheBoot
+         jsr   IDProDOS
+         bcc   BeginTheBoot
 ; [execution falls through here]
 ; [and runs anyway]
 
@@ -197,3 +199,4 @@ StringTable
          !src  "src/ididsi.a"
          !src  "src/idsirius.a"
          !src  "src/idboot.a"
+         !src  "src/idprodos.a"
