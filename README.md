@@ -15,8 +15,8 @@ themselves would work fine if they were allowed to boot past this ROM check.
 
 Other games fail on an enhanced Apple //e, due to subtle differences between
 6502 and 65c02 processors. Still others fail on an Apple //c or IIgs, due to
-changes in the boot PROM code. Then there are some _very_ early games that
-require a 13-sector drive.
+changes in the boot PROM code. ProDOS fails to boot on clones like Franklin and
+Pravetz. Then there are some _very_ early games that require a 13-sector drive.
 
 Anti-M uses a modified boot PROM that can boot any disk, then controls the
 game's bootloader long enough to bypass the ROM check and patch any 6502-
@@ -63,6 +63,7 @@ then press `<RETURN>`. The game should boot normally.
 - Trick Shot (IDSI)
 - Zenith (Gebelli)
 - all 13-sector disks (e.g. Epyx, Edu-Ware, many others)
+- all ProDOS disks
 
 (*) later re-released with different copy protection. Only the first release
 requires Anti-M.
@@ -80,6 +81,12 @@ run it with your favorite launcher. Bonus feature: when launching Anti-M from
 a hard drive, it will skip the prompt and immediately boot slot 6, drive 1.
 
 ## History
+
+v1.2 - 2019-03-22
+
+- support booting ProDOS on clones
+- additional patches for "Star Thief"
+- launch Anti-M program faster
 
 v1.1 - 2019-03-16
 
