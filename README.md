@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.1/anti-m-v1.1-2019-03-16.po)
-(version **1.1**, released **2019-03-16**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.2/anti-m-v1.2-2019-03-24.po)
+(version **1.2**, released **2019-03-24**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -82,7 +82,7 @@ a hard drive, it will skip the prompt and immediately boot slot 6, drive 1.
 
 ## History
 
-v1.2 - 2019-03-22
+v1.2 - 2019-03-24
 
 - support booting ProDOS on clones
 - additional patches for "Star Thief"
