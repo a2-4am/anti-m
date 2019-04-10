@@ -47,6 +47,8 @@ cmp1     =     $F8        ; word
 cmp2     =     $FA        ; word
 tmp      =     $FC        ; byte
 
+         lda   #$00
+         sta   $85FF                 ; boot drive 1
          jsr   TEXT
          lda   BUTTON0
          ora   BUTTON1
@@ -54,6 +56,8 @@ tmp      =     $FC        ; byte
          lda   DEVNUM
          cmp   #$60
          bne   Boot
+         jsr   CheckDrive2
+         bcc   Boot2
 @showprompt
          jsr   HOME
          lda   MACHINEID
@@ -72,12 +76,16 @@ tmp      =     $FC        ; byte
          bit   STROBE
          cmp   #$8D                  ; return
          beq   Boot
+         cmp   #$B2                  ; 2
+         beq   Boot2
          jsr   MLI
          !byte $65
          !word .quitparm
 .quitparm
          !byte $04,$00,$00,$00,$00,$00,$00
 
+Boot2
+         inc   $85FF                 ; boot drive 2
 Boot
          jsr   HOME
          ldx   #$00
@@ -87,7 +95,7 @@ Boot
          bne   -
          lda   $865C
          cmp   #$80
-         bne   +
+         bne   @check2
          lda   #$18
          sta   $865C
          lda   #$08
@@ -102,22 +110,26 @@ Boot
          stx   $86A3
          dex
          stx   $86A5
+@check2
+         lda   $85FF
+         beq   @skip2
          ldx   #$C8
          lda   $860F
          cmp   #$5A
-         bne   ++
+         bne   +
          lda   #$EA
          sta   $860F
          stx   $8616 ;select drive 2 on IIc
-++       lda   $8619
++        lda   $8619
          cmp   #$78
          bne   +
          stx   $8619 ;select drive 2 on IIGS
 +        lda   $8636
          cmp   #$8A
-         bne   +
+         bne   @skip2
          inc   $8636 ;select drive 2 on II
-+        lda   #<Tracer
+@skip2
+         lda   #<Tracer
          ldx   #>Tracer
          ldy   $86F8
          cpy   #$4C
@@ -137,6 +149,33 @@ Boot
          jmp   IDBoot
 @unknowncontroller
          jmp   $C600
+
+CheckDrive2
+         lda   $C0E9
+         lda   $C0EB
+         ldy   #6
+--       ldx   #$11
+-        dex
+         bne   -
+         sec
+         sbc   #1
+         bne   --
+         dey
+         bpl   --
+         ldy   #0
+-        lda   $C0EC
+         jsr   @knownret
+         pha
+         pla
+         cmp   $C0EC
+         clc
+         bne   +
+         dey
+         bne   -
+         sec
++        lda   $C0E8
+@knownret
+         rts
 
 Tracer
          jsr   IDBroderbund
@@ -200,13 +239,19 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.3-pre by 4am        2019-04-09"
+         !text "Anti-M v1.3-pre by 4am        2019-04-10"
          !text "________________________________________",$8D
-         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
+         !text $8D,$8D,$8D,$8D,$00
 @mainmenu
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
-         !text "       and press <RETURN> to boot",$00
+         !text "       and press <RETURN> to boot",$8D
+         !text $8D
+         !text "                   or",$8D
+         !text $8D
+         !text " Insert original disk in slot 6 drive 2",$8D
+         !text $8D
+         !text "          and press 2 to boot",$00
 
          !src  "src/compare.a"
          !src  "src/idbroderbund.a"

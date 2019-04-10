@@ -204,6 +204,8 @@ IDBoot
          rts
 
 @callback53_2
+         lda   $85FF
+         beq   @skip2
          lda   #$29
          ldx   #$6E
          ldy   #8
@@ -213,6 +215,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notinfocom
          inc   $296F
+@skip2
          rts
 
 @notinfocom
