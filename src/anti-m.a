@@ -102,6 +102,21 @@ Boot
          stx   $86A3
          dex
          stx   $86A5
+         ldx   #$C8
+         lda   $860F
+         cmp   #$5A
+         bne   ++
+         lda   #$EA
+         sta   $860F
+         stx   $8616 ;select drive 2 on IIc
+++       lda   $8619
+         cmp   #$78
+         bne   +
+         stx   $8619 ;select drive 2 on IIGS
++        lda   $8636
+         cmp   #$8A
+         bne   +
+         inc   $8636 ;select drive 2 on II
 +        lda   #<Tracer
          ldx   #>Tracer
          ldy   $86F8
@@ -185,7 +200,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.2 by 4am            2019-03-24"
+         !text "Anti-M v1.3-pre by 4am        2019-04-09"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
