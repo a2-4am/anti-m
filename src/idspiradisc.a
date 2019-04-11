@@ -29,6 +29,24 @@ IDSpiraDisc
          rts
 
 @callback1
+         lda   $85FF
+         beq   @skip2
+         lda   $B5F9
+         cmp   #$8A
+         bne   +
+         inc   $B5F9
++        lda   $B608
+         cmp   #$8A
+         bne   +
+         inc   $B608
++        lda   $B618
+         cmp   #$8A
+         bne   +
+         inc   $B618
++
+
+@skip2
+
 ; disable ROM checksum-failure branching
          lda   $B845
          cmp   #$5C

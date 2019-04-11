@@ -69,6 +69,8 @@ IDBoot
          inc   $86D2
 -        lda   @decode53,y
          sta   $86D5,y
+         lda   @decode53+$100,y
+         sta   $86D5+$100,y
          iny
          bne   -
          lda   #$02
@@ -91,10 +93,15 @@ IDBoot
          tay
          iny
          sty   @patch53+1
-         ldx   #0
          ldy   $8FE
+         tya
+         pha
+         lda   #$FF
+         pha
          iny
          tya
+         ldx   #<@callback53_2
+         ldy   #>@callback53_2
          bne   -
 
 @decode53 !pseudopc $86D5 {
@@ -162,4 +169,133 @@ IDBoot
          bcs   +
          jmp   $865D
 +        jmp   ($44)
+
+@CompareMemoryRel
+         sta   cmp1+1
+         stx   cmp1
+         pla
+         sta   cmp2
+         pla
+         sta   cmp2+1
+         tax
+         tya
+         clc
+         adc   cmp2
+         bcc   +
+         inx
++        sta   tmp
+         txa
+         pha
+         lda   tmp
+         pha
+.cmp
+         lda   (cmp2),y
+         dey
+         bmi   .success
+         cmp   (cmp1),y
+         beq   .cmp
+         cmp   #WILDCARD
+         beq   .cmp
+         sec
+         !byte $24        ; hide CLC
+.success clc
+         lda   cmp1+1
+         ldx   cmp1
+         rts
+
+@callback53_2
+         lda   $85FF
+         beq   @skip2
+         lda   #$29
+         ldx   #$6E
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notinfocom
+         inc   $296F
+@skip2
+         rts
+
+@notinfocom
+         lda   #$3D
+         ldx   #$5F
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32a
+         inc   $3D60
+         ldx   #$60
+         rts
+
+@notdos32a
+         lda   #$BD
+         ldx   #$6E
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32b
+         inc   $BD6F
+         ldx   #$60
+         rts
+
+@notdos32b
+         lda   #$3D
+         ldx   #$6E
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32c
+         inc   $3D6F
+         ldx   #$60
+         rts
+
+@notdos32c
+         lda   #$BD
+         ldx   #$5F
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32d
+         inc   $BD60
+         ldx   #$60
+         rts
+
+@notdos32d
+         lda   #$24
+         ldx   #$6E
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32e
+         inc   $246F
+         ldx   #$60
+         rts
+
+@notdos32e
+         lda   #$7D
+         ldx   #$5F
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32f
+         inc   $7D60
+         ldx   #$60
+         rts
+
+@notdos32f
+         rts
 }
