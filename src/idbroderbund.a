@@ -258,6 +258,10 @@ IDBroderbund
          ldx   #<@BugAttackCallback
          ldy   #>@BugAttackCallback
          cmp   #$A1
+         beq   @hookhybrid
+         ldx   #<@DOS33Callback
+         ldy   #>@DOS33Callback
+         cmp   #$B6
          bne   @jmpdos
 
 @hookhybrid
@@ -302,6 +306,11 @@ IDBroderbund
          sta   $300-1,y
          dey
          bne   -
+         lda   $85FF
+         sta   @SpaceEggsPatch+1
+         beq   @skip2a
+         inc   $3D60
+@skip2a
 +        jmp   $3700                 ; let it goooo...
 
 @SpaceEggsCallback3 !pseudopc $300 {
@@ -309,6 +318,11 @@ IDBroderbund
          jsr   $3700
          pla
          pla
+@SpaceEggsPatch
+         lda   #$00
+         beq   @skip2b
+         inc   $5D60
+@skip2b
          jsr   $5700
          lda   #$EA
          sta   $49C3
@@ -355,6 +369,10 @@ IDBroderbund
          sta   @StarThiefCallback2x-1,y
          dey
          bne   -
+         lda   $85FF
+         beq   @skip2c
+         inc   $421C
+@skip2c
          lda   #$4C
          sta   $42C0
          lda   #<@StarThiefCallback2x
@@ -381,7 +399,29 @@ IDBroderbund
          sta   $A2F7
          lda   #>@BugAttackCallback2x
          sta   $A2F8
+         lda   $85FF
+         beq   @skip2d
+         inc   $A234
+@skip2d
          jmp   $A200
+
+@DOS33Callback
+         lda   $85FF
+         beq   @skip2e
+         lda   #$BD
+         ldx   #$5F
+         ldy   #8
+         jsr   CompareMemory
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos33
+         inc   $BD60
+
+@notdos33
+@skip2e
+         ldx   #$60
+         jmp   $B700
 
 @StarThiefCallback2 !pseudopc $110 {
 @StarThiefCallback2x
