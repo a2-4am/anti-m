@@ -80,7 +80,23 @@ Yes! Copy the `ANTI.M.SYSTEM` file to anywhere on your ProDOS hard drive and
 run it with your favorite launcher. Bonus feature: when launching Anti-M from
 a hard drive, it will skip the prompt and immediately boot slot 6, drive 1.
 
+## But wait, there's more!
+
+Anti-M can also boot many games from drive 2, including all the games listed
+above. If you launch Anti-M from slot 6 and it detects a disk in drive 2, it
+will skip the prompt and immediately boot from drive 2. Otherwise, you can
+press `2` at the prompt to boot from drive 2 instead of drive 1.
+
+To disable auto-boot and show the prompt, even if Anti-M would normally skip
+it, you can press either joystick button (open-apple or closed-apple key) while
+launching Anti-M.
+
 ## History
+
+v1.3 - 2019-04-12
+
+- support booting from drive 2
+- fix booting on MAME
 
 v1.2 - 2019-03-24
 

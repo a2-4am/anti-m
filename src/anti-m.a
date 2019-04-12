@@ -76,6 +76,8 @@ tmp      =     $FC        ; byte
          bit   STROBE
          cmp   #$8D                  ; return
          beq   Boot
+         cmp   #$B1                  ; 1
+         beq   Boot
          cmp   #$B2                  ; 2
          beq   Boot2
          jsr   MLI
@@ -234,7 +236,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.3-pre by 4am        2019-04-11"
+         !text "Anti-M v1.3 by 4am            2019-04-12"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
