@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.2/anti-m-v1.2-2019-03-24.po)
-(version **1.2**, released **2019-03-24**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.3/anti-m-v1.3-2019-04-12.dsk)
+(version **1.3**, released **2019-04-12**, runs on any 48K Apple II)
 
 ## What is this?
 
