@@ -57,7 +57,7 @@ tmp      =     $FC        ; byte
          cmp   #$60
          bne   Boot
          jsr   CheckDrive2
-         bcc   Boot2
+         bne   Boot2
 @showprompt
          jsr   HOME
          lda   MACHINEID
@@ -162,18 +162,13 @@ CheckDrive2
          bne   --
          dey
          bpl   --
-         ldy   #0
--        lda   $C0EC
-         jsr   @knownret
-         pha
-         pla
-         cmp   $C0EC
-         clc
-         bne   +
+         lda   #$00
+         ldy   #$00
+-        eor   $C0EC
          dey
          bne   -
-         sec
-+        lda   $C0E8
+         sta   $C0E8
+         cmp   #$00
 @knownret
          rts
 
@@ -239,19 +234,13 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.3-pre by 4am        2019-04-10"
+         !text "Anti-M v1.3-pre by 4am        2019-04-11"
          !text "________________________________________",$8D
-         !text $8D,$8D,$8D,$8D,$00
+         !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
          !text " Insert original disk in slot 6 drive 1",$8D
          !text $8D
-         !text "       and press <RETURN> to boot",$8D
-         !text $8D
-         !text "                   or",$8D
-         !text $8D
-         !text " Insert original disk in slot 6 drive 2",$8D
-         !text $8D
-         !text "          and press 2 to boot",$00
+         !text "       and press <RETURN> to boot",$8D,$00
 
          !src  "src/compare.a"
          !src  "src/idbroderbund.a"

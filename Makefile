@@ -16,22 +16,24 @@ ACME=acme
 # https://github.com/mach-kernel/cadius
 CADIUS=cadius
 
-BUILDDISK=build/anti-m.po
+BUILDDISK=build/anti-m
 VOLUME=ANTI.M
 
 asm:
 	mkdir -p build
 	$(ACME) -r build/anti-m.lst src/anti-m.a
-	cp res/work.bin "$(BUILDDISK)"
+	cp res/work.bin "$(BUILDDISK)".po
 	cp res/_FileInformation.txt build/ >>build/log
-	$(CADIUS) ADDFILE "$(BUILDDISK)" "/${VOLUME}/" "build/ANTI.M.SYSTEM" >>build/log
+	$(CADIUS) ADDFILE "$(BUILDDISK)".po "/${VOLUME}/" "build/ANTI.M.SYSTEM" >>build/log
 	$(ACME) -r build/proboot.lst src/proboot.a
-	bin/changebootloader.py "$(BUILDDISK)" build/proboot
+	bin/changebootloader.py "$(BUILDDISK)".po build/proboot
+	bin/po2do.py build/ build/
+	rm "$(BUILDDISK)".po
 
 clean:
 	rm -rf build/
 
 mount:
-	open "$(BUILDDISK)"
+	open "$(BUILDDISK)".dsk
 
 all: clean asm mount
