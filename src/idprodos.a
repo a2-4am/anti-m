@@ -45,6 +45,11 @@ IDProDOS
          dey
          bne   @ProDOS_patch
 @ProDOS_exit
+         lda   $85FF
+         beq   @OneDrive
+         lda   #$E0
+         sta   $43
+@OneDrive
          jmp   $2000
 
 ;-------------------------------
