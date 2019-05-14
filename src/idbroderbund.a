@@ -50,8 +50,12 @@ IDBroderbund
          bne   @exit
 
 @maybeSpaceEggs
+         lda   $842
+         sta   @jmpdos+1
          lda   #<@SpaceEggsCallback
          sta   $0842
+         lda   $843
+         sta   @jmpdos+2
          lda   #>@SpaceEggsCallback
          sta   $0843
 
