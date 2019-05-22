@@ -5,6 +5,7 @@
 ; - Beer Run
 ; - Gamma Goblins
 ; - Orbitron
+; - Computer Foosball
 ;
 IDSirius
          lda   #8
@@ -18,7 +19,7 @@ IDSirius
          !byte $A6,$2B     ;LDX $2B
          !byte $A9,$04     ;LDA #$04
          !byte $85,$11     ;STA $11
-         bcs   @exit
+         bcs   @trySirius2
 
 ; patch code to regain control after it loads sectors into $400+
          ldy   #@callback1_e-@callback1
@@ -38,6 +39,34 @@ IDSirius
          sty   $0871
 
 @exit
+         rts
+
+@trySirius2
+         lda   #8
+         ldx   #1
+         ldy   #20
+         jsr   CompareMemory
+         !byte $AD,$52,$C0      ;STA $C052
+         !byte $AD,$57,$C0      ;STA $C057
+         !byte $AD,$55,$C0      ;STA $C055
+         !byte $AD,$50,$C0      ;STA $C050
+         !byte $A0,$00          ;LDY #$00
+         !byte $84,$00          ;STY $00
+         !byte $A9,$D0          ;LDA #$D0
+         !byte $85,$01          ;STA $01
+         bcs   @exit2
+
+; patch code to regain control after it loads sectors into $400+
+         ldy   #@callback3_e-@callback3
+-        lda   @callback3-1,y
+         sta   @callback3x-1,y
+         dey
+         bne   -
+         ldx   #<@callback3x
+         stx   $0867
+         ldy   #>@callback3x
+         sty   $0868
+@exit2
          rts
 
 @callback1 !pseudopc $300 {
@@ -96,3 +125,19 @@ IDSirius
          rts
 }
 @callback1_e
+
+@callback3 !pseudopc $BF00 {
+@callback3x
+; disable ROM check entirely
+         ldx   #$60
+         lda   $69A
+         cmp   #$AD
+         bne   +
+         stx   $69A
+         jmp   $400
+
+; two different versions
++        stx   $706
+         jmp   $400
+}
+@callback3_e
