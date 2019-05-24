@@ -191,9 +191,10 @@ Tracer
 ; [and runs anyway]
 
 BeginTheBoot
-         lda   #1
+         lda   #$11 ;Virtual II fix
          pha
          plp ;match boot-time flags and registers
+         lda   #1
          ldy   #0
          ldx   #$60
          jmp   $0801
