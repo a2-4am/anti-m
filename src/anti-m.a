@@ -185,12 +185,15 @@ Tracer
          bcc   BeginTheBoot
          jsr   IDProDOS
          bcc   BeginTheBoot
+         jsr   IDProgame
+         bcc   BeginTheBoot
 ; [execution falls through here]
 ; [and runs anyway]
 
 BeginTheBoot
-         sec ;match boot-time flags and registers
          lda   #1
+         pha
+         plp ;match boot-time flags and registers
          ldy   #0
          ldx   #$60
          jmp   $0801
@@ -236,7 +239,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.4 by 4am            2019-05-24"
+         !text "Anti-M v1.5-pre by 4am        2019-05-24"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
@@ -251,3 +254,4 @@ StringTable
          !src  "src/idsirius.a"
          !src  "src/idboot.a"
          !src  "src/idprodos.a"
+         !src  "src/idprogame.a"
