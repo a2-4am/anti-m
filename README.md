@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.3/anti-m-v1.3-2019-04-12.dsk)
-(version **1.3**, released **2019-04-12**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.4/anti-m-v1.4-2019-05-24.dsk)
+(version **1.4**, released **2019-05-24**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -32,6 +32,7 @@ then press `<RETURN>`. The game should boot normally.
 - Beer Run (Sirius)
 - Bug Attack (Cavalier)
 - Choplifter (Broderbund) (*)
+- Computer Foosball (Sirius)
 - David's Midnight Magic (Broderbund) (*)
 - Dueling Digits (Broderbund)
 - Eggs-It (Gebelli)
@@ -92,6 +93,13 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v1.4 - 2019-05-24
+
+- support "Computer Foosball"
+- fix a crash when booting early Spinnaker Software disks (e.g. "Alphabet Zoo,"
+  "In Search of The Most Amazing Thing")
+- fix booting ProDOS disks from drive 2
 
 v1.3 - 2019-04-12
 
