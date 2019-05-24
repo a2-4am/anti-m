@@ -1,0 +1,88 @@
+; Progame tracer
+; written by qkumba
+;
+; tested on
+; - Lady Tut
+;
+IDProgame
+         lda   #8
+         ldx   #1
+         ldy   #19
+         jsr   CompareMemory
+         !byte $20,$4A,$FF ;JSR $FF4A
+         !byte $29,$FB     ;AND #$FB
+         !byte $EE,$F4,$03 ;INC $03F4
+         !byte $85,$2E     ;STA $2E
+         !byte $A0,$FF     ;LDY #$FF
+         !byte $84,$3E     ;STY $3E
+         !byte $84,$42     ;STY $42
+         !byte $59,$00,$08
+         bcs   @exit
+
+; patch code to regain control after it erases hires screen
+         ldy   #@callback1_e-@callback1
+-        lda   @callback1-1,y
+         sta   @callback1x-1,y
+         dey
+         bne   -
+         lda   #$20
+         sta   $814
+         lda   #<@callback1x
+         sta   $815
+         lda   #>@callback1x
+         sta   $816
+@exit
+         rts
+
+@callback1 !pseudopc $300 {
+@callback1x
+         sta   $800,y
+         cpy   #$fe
+         bne   @checkgs
+         ldx   #<@callback2
+         stx   $8fe
+         ldx   #>@callback2
+         stx   $8ff
+
+@checkgs
+         cpy   #$e4
+         bne   @resume
+
+; fix GS compatibility
+         ldx   #$a9
+         stx   $8e4
+         ldx   #$f0
+         stx   $8e5
+         ldx   #$ea
+         stx   $8e6
+
+; restore changes to allow decryption to succeed
+         ldx   #$99
+         stx   $814
+         ldx   #$00
+         stx   $815
+         ldx   #$08
+         stx   $816
+
+@resume
+         rts
+
+@callback2
+         lda   #<@callback3
+         sta   $84b
+         lda   #>@callback3
+         sta   $84c
+         jmp   $81b
+
+@callback3
+; restore changes to allow decryption to succeed
+         lda   #$17
+         sta   $44b
+         lda   #$fd
+         sta   $44c
+
+; simulate what's missing in the IIee and later ROMs
+         pla
+         jmp   $fd18
+}
+@callback1_e
