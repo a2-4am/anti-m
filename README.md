@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.4/anti-m-v1.4-2019-05-24.dsk)
-(version **1.4**, released **2019-05-24**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.5/anti-m-v1.5-2019-06-11.dsk)
+(version **1.5**, released **2019-06-11**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -45,6 +45,7 @@ then press `<RETURN>`. The game should boot normally.
 - Jawbreaker ][ (On-Line Systems)
 - Juggler (IDSI)
 - Labyrinth (Broderbund)
+- Lady Tut (Progame)
 - Lazer Silk (Gebelli)
 - Lunar Leepers (On-Line Systems)
 - Neptune (Gebelli)
@@ -93,6 +94,10 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v1.5 - 2019-06-11
+
+- support "Lady Tut"
 
 v1.4 - 2019-05-24
 
