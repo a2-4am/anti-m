@@ -29,6 +29,7 @@ IDIDSI
          rts
 
 @callback1
+         ldx   #$DF
          lda   $1057
          cmp   #$84
          bne   @hook2b
@@ -37,22 +38,14 @@ IDIDSI
          sta   $10D4
          lda   #$2C
          sta   $1088
-         lda   #<@callback2
-         sta   $10F9
-         lda   #>@callback2
-         sta   $10FA
-         lda   #$33
-         bne   @patch3
+         ldx   #$F9
 
 @hook2b
          lda   #<@callback2
-         sta   $10DF
+         sta   $1000,X
          lda   #>@callback2
-         sta   $10E0
-         lda   #$3A
+         sta   $1001,X
 
-@patch3
-         sta   @tracer2+(@tracer3-@tracer2x)+(@cb3patch+1-@tracer3x)
          jmp   $1000
 
 @callback2
@@ -84,30 +77,43 @@ IDIDSI
 @tracer3
 !pseudopc $BF00 {
 @tracer3x
+         lda   $196
+         sta   @cb3patch1+1
+         sta   @cb3patch2+1
+         sta   @cb3patch3+1
+         sta   @cb3patch4+1
+         ldx   $197
+         stx   @cb3patch3+2
+         stx   @cb3patch4+2
+         dex
+         stx   @cb3patch1+2
+         stx   @cb3patch2+2
          lda   #<@callback3
          sta   $196
          lda   #>@callback3
          sta   $197
          jmp   $100
 @callback3
+
 @cb3patch
-         lda   #$D1 ;SMC
-         sta   @cb3jump+1
-         cmp   #$3A
-         lda   #0
-         ldx   #$18
-         ldy   #$BF
-         bcs   +
-         sta   $66A
-         stx   $675
-         sty   $62E
-         bne   ++
-+        sta   $671
-         stx   $67C
-         sty   $635
-++
+         ldx   #$FB
+@cb3patch1
+         lda   $d1d1,X ;SMC
+         cmp   #$c0
+         bne   @cb3jump
+         lda   #$BF
+@cb3patch2
+         sta   $d1d1,X ;SMC
+         ldx   #$37
+         lda   #$00
+@cb3patch3
+         sta   $d1d1,X ;SMC
+         ldx   #$42
+         lda   #$18
+@cb3patch4
+         sta   $d1d1,X ;SMC
 @cb3jump
-         jmp   $6D1 ;SMC
+         jmp   (@cb3patch3+1)
 }
 @tracer3_e
 }
