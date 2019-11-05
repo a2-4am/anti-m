@@ -158,12 +158,11 @@ IDBoot13
 .success clc
          lda   cmp1+1
          ldx   cmp1
-@skip2
          rts
 
 @callback53
          lda   $85FF
-         beq   @skip2
+         beq   @jmp_dispatch
          lda   #$29
          ldx   #$6E
          ldy   #8
@@ -173,6 +172,7 @@ IDBoot13
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notinfocom
          inc   $296F
+@jmp_dispatch
          jmp   @dispatch
 
 @notinfocom
