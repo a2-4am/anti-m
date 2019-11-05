@@ -37,138 +37,95 @@ IDBoot
          sta   $867B
 
 ; build 5-and-3 decoder table
-         ldx   #$00
-         ldy   #$AB
--        tya
+         ldx   #$20 ;now you know why the boot PROM
+         ldy   #$00 ;starts with these magic values
+--       lda   #$03
          sta   $3C
-         lsr
-         ora   $3C
-         cmp   #$FF
-         bne   +
+         clc
+         dey
+         tya
+-        bit   $3C
+         beq   --
+         rol   $3C
+         bcc   -
          cpy   #$D5
-         beq   +
+         beq   --
+         dex
          txa
-         asl
-         asl
-         asl
-         sta   $300,y
-         inx
-+        iny
-         bne   -
+         sta   $800,y
+         bne   --
 
 ; patch boot PROM to recognise 13-sector instead
-         lda   #$B5
-         sta   $8677
-         lda   #$9A
-         sta   $86A7
-         sty   $86B0
-         inc   $86B1
-         sty   $86C2
-         inc   $86C3
-         sty   $86D1
-         inc   $86D2
--        lda   @decode53,y
-         sta   $86D5,y
-         lda   @decode53+$100,y
-         sta   $86D5+$100,y
-         iny
+         ldy   #$B5
+         sty   $8677
+         dec   $86A1
+         ldy   #$9A
+         sty   $86A7
+         sta   $86B0
+         ldy   #$08
+         sty   $86B1
+         sty   $86B7
+         sta   $86C2
+         sty   $86C3
+         sta   $86D1
+         sty   $86D2
+-        lda   @decode53,x
+         sta   $86D5,x
+         lda   @decode53 + $100,x
+         sta   $86D5 + $100,x
+         inx
          bne   -
-         lda   #$02
+         lda   #$03
          sta   $27
-         sty   $42
-         lda   #$08
-         ldx   #<@callback53
-         ldy   #>@callback53
--        sta   $43
-         stx   $44
-         sty   $45
-         clc
-         jmp   @run53
-
-@callback53
-         lda   $8FF
-         lsr
-         lsr
-         lsr
-         tay
-         iny
-         sty   @patch53+1
-         ldy   $8FE
-         tya
-         pha
-         lda   #$FF
-         pha
-         iny
-         tya
-         ldx   #<@callback53_2
-         ldy   #>@callback53_2
-         bne   -
+         sta   $2A
+         ldx   #$60
+         jsr   $865D
+         jmp   $86D6
 
 @decode53 !pseudopc $86D5 {
 @decode53x
-         ldx   #$32
-         ldy   #$00
--        lda   $300,x
+         rts
+         tay
+--       ldx   #$00
+-        lda   $800,y
          lsr
+         rol   $3CC,x
          lsr
-         lsr
+         rol   $399,x
          sta   $3C
-         lsr
-         sta   $2A
-         lsr
-         ora   $200,x
-         sta   ($42),y
+         lda   ($26),y
+         asl
+         asl
+         asl
+         ora   $3C
+         sta   ($26),y
          iny
-         lda   $333,x
-         lsr
-         lsr
-         lsr
-         lsr
-         rol   $3C
-         lsr
-         rol   $2A
-         ora   $233,x
-         sta   ($42),y
-         iny
-         lda   $366,x
-         lsr
-         lsr
-         lsr
-         lsr
-         rol   $3C
-         lsr
-         rol   $2A
-         ora   $266,x
-         sta   ($42),y
-         iny
-         lda   $2A
-         and   #7
-         ora   $299,x
-         sta   ($42),y
-         iny
-         lda   $3C
-         and   #7
-         ora   $2CC,x
-         sta   ($42),y
-         iny
-         dex
-         bpl   -
-         lda   $399
-         lsr
-         lsr
-         lsr
-         ora   $2FF
-         sta   ($42),y
-         inc   $3D
-         inc   $43
-         lda   $3D
-@patch53
-         cmp   #$01
-@run53
-         ldx   #$60
-         bcs   +
-         jmp   $865D
-+        jmp   ($44)
+         inx
+         cpx   #$33
+         bne   -
+         dec   $2A
+         bne   --
+         cpy   $300
+-        bne   -
+         jmp   Tracer13
+
+IDBoot13
+         lda   $33C
+         cmp   #$AD
+         sec
+         bne   +
+         lda   #$4C
+         sta   $33C
+         lda   $33D
+         sta   @dispatch+1
+         lda   #<@callback53
+         sta   $33D
+         lda   $33E
+         sta   @dispatch+2
+         lda   #>@callback53
+         sta   $33E
+         clc
++        rts
 
 @CompareMemoryRel
          sta   cmp1+1
@@ -201,9 +158,10 @@ IDBoot
 .success clc
          lda   cmp1+1
          ldx   cmp1
+@skip2
          rts
 
-@callback53_2
+@callback53
          lda   $85FF
          beq   @skip2
          lda   #$29
@@ -215,8 +173,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notinfocom
          inc   $296F
-@skip2
-         rts
+         jmp   @dispatch
 
 @notinfocom
          lda   #$3D
@@ -228,8 +185,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notdos32a
          inc   $3D60
-         ldx   #$60
-         rts
+         jmp   @dispatch
 
 @notdos32a
          lda   #$BD
@@ -241,8 +197,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notdos32b
          inc   $BD6F
-         ldx   #$60
-         rts
+         jmp   @dispatch
 
 @notdos32b
          lda   #$3D
@@ -254,8 +209,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notdos32c
          inc   $3D6F
-         ldx   #$60
-         rts
+         jmp   @dispatch
 
 @notdos32c
          lda   #$BD
@@ -267,8 +221,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notdos32d
          inc   $BD60
-         ldx   #$60
-         rts
+         jmp   @dispatch
 
 @notdos32d
          lda   #$24
@@ -280,8 +233,7 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notdos32e
          inc   $246F
-         ldx   #$60
-         rts
+         jmp   @dispatch
 
 @notdos32e
          lda   #$7D
@@ -293,9 +245,49 @@ IDBoot
          !byte $BD,$8B,$C0 ;LDA $C08B,X
          bcs   @notdos32f
          inc   $7D60
-         ldx   #$60
-         rts
+         jmp   @dispatch
 
 @notdos32f
+
+@dispatch
+         lda   $d1d1 ;SMC
+         pha
+         lda   #$ff
+         pha
+         ldx   #$60
          rts
 }
+
+PatchBoot13
+         lda   #3
+         ldx   #$1B
+         ldy   #8
+         jsr   CompareMemory
+         !byte $4A         ;LSR
+         !byte $4A         ;LSR
+         !byte $4A         ;LSR
+         !byte $4A         ;LSR
+         !byte $09,$C0     ;ORA #$C0
+         !byte $85,$3F     ;STA $3F
+         bcs   @retry
+         lda   #$80
+         sta   $320
+         bcc   @exit
+
+@retry
+         lda   #3
+         ldx   #$25
+         ldy   #8
+         jsr   CompareMemory
+         !byte $4A         ;LSR
+         !byte $4A         ;LSR
+         !byte $4A         ;LSR
+         !byte $4A         ;LSR
+         !byte $09,$C0     ;ORA #$C0
+         !byte $85,$3F     ;STA $3F
+         bcs   @exit
+         lda   #$80
+         sta   $32A
+
+@exit
+         rts
