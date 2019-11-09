@@ -1,0 +1,58 @@
+; Personal Software tracer
+; written by qkumba
+;
+; tested on
+; - MicroChess
+; - Gammon Gambler
+; - Checker King
+
+IDPersonal
+         lda   #3
+         ldx   #$3C
+         ldy   #7
+         jsr   CompareMemory
+         !byte $AD,$CC,$03 ;LDA $03CC
+         !byte $EA         ;NOP
+         !byte $4C,$A5,$03 ;JMP $03A5
+         bcs   @not_microchess
+
+; patch code to regain control after decryption
+         lda   #<@callback_microchess
+         sta   $3bf
+         lda   #>@callback_microchess
+         sta   $3c0
+@exit
+         rts
+
+@callback_microchess
+         lda   $85ff
+         beq   +
+         inc   $35c1
++        jmp   $3500
+
+@not_microchess
+         lda   #3
+         ldx   #$46
+         ldy   #9
+         jsr   CompareMemory
+         !byte $AD,$BB,$03 ;LDA $03BB
+         !byte $85,$3F     ;STA $3F
+         !byte $E6,$3F     ;INC $3F
+         !byte $A0,$4E     ;LDY #$4E
+         bcs   @exit2
+
+; patch code to regain control after decryption
+         lda   #$4c
+         sta   $346
+         lda   #<@callback_gammon
+         sta   $347
+         lda   #>@callback_gammon
+         sta   $348
+@exit2
+         rts
+
+@callback_gammon
+         lda   $85ff
+         beq   +
+         inc   $ba2
++        jmp   $b00

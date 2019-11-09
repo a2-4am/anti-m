@@ -199,6 +199,19 @@ BeginTheBoot
          ldx   #$60
          jmp   $0801
 
+Tracer13
+         jsr   PatchBoot13
+         jsr   IDPersonal
+         bcc   BeginTheBoot13
+         jsr   IDBoot13
+         bcc   BeginTheBoot13
+; [execution falls through here]
+; [and runs anyway]
+
+BeginTheBoot13
+         ldy   $0300
+         jmp   $0301
+
 PrintByID
          cmp   #STRINGCOUNT
          bcs   @exit
@@ -240,7 +253,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.6-pre by 4am        2019-09-05"
+         !text "Anti-M v1.6-pre by 4am        2019-11-04"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
@@ -256,3 +269,4 @@ StringTable
          !src  "src/idboot.a"
          !src  "src/idprodos.a"
          !src  "src/idprogame.a"
+         !src  "src/idpersonal.a"
