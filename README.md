@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.5/anti-m-v1.5-2019-06-11.dsk)
-(version **1.5**, released **2019-06-11**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.6/anti-m-v1.6-2019-11-09.dsk)
+(version **1.6**, released **2019-11-09**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -94,6 +94,11 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v1.6 - 2019-11-09
+
+- support Personal Software 13-sector disks ("MicroChess 2.0," "Checker King,"
+  "Gammon Gambler")
 
 v1.5 - 2019-06-11
 
