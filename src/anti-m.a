@@ -6,7 +6,7 @@
 ;-------------------------------
 ; Anti-M
 ; a 4am hack
-; (c) 2019 by 4am
+; (c) 2019-2020 by 4am
 ;
 ; Permission is hereby granted, free of charge, to any
 ; person obtaining a copy of this software and associated
@@ -187,6 +187,8 @@ Tracer
          bcc   BeginTheBoot
          jsr   IDProgame
          bcc   BeginTheBoot
+         jsr   IDAlphaBeta
+         bcc   BeginTheBoot
 ; [execution falls through here]
 ; [and runs anyway]
 
@@ -253,7 +255,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.6 by 4am            2019-11-09"
+         !text "Anti-M v1.7 by 4am            2020-08-11"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
@@ -270,3 +272,4 @@ StringTable
          !src  "src/idprodos.a"
          !src  "src/idprogame.a"
          !src  "src/idpersonal.a"
+         !src  "src/idalphabeta.a"
