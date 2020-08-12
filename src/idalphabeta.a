@@ -1,0 +1,37 @@
+; Alpha-Beta tracer
+; written by qkumba
+;
+; tested on
+; - Odin
+;
+IDAlphaBeta
+         lda   #8
+         ldx   #1
+         ldy   #15
+         jsr   CompareMemory
+         !byte $48         ;PHA
+         !byte $28         ;PLP
+         !byte $8C,$F4,$03 ;STY $03F4
+         !byte $2C,$81,$C0 ;BIT $C081
+         !byte $2C,$81,$C0 ;BIT $C081
+         !byte $98         ;TYA
+         !byte $99,$08,$FF ;STA $FF08,Y
+         bcs   @exit
+
+; patch code to offer magic values
+         lda   #$A9        ;LDA
+         sta   $833
+         sta   $83B
+         sta   $841
+         ldx   #$FA
+         stx   $834
+         lda   #$EA
+         sta   $835
+         sta   $83D
+         sta   $843
+         inx
+         stx   $83C
+         lda   #3
+         sta   $842
+@exit
+         rts
