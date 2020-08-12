@@ -12,11 +12,27 @@ IDProDOS
          !byte $86,$43     ;STA $43
          !byte $C9,$03     ;CMP #$03
          bcs   @exit
+         ldx   #$60
+         stx   $801
+         inc   $3D
+         jsr   $865C
+         lda   #$38
+         sta   $801
+         lda   #9
+         ldx   #$48
+         ldy   #7
+         jsr   CompareMemory
+         !byte $C9,$E7     ;CMP #$E7
+         !byte $D0,$F4     ;BCS *-$0B
+         !byte $BD,$8C,$C0 ;LDA $C08C,X
+         bcc   @exit
+
          ldy   #@ProDOSCallback_e-@ProDOSCallback
 -        lda   @ProDOSCallback-1,y
          sta   @ProDOSCallbackx-1,y
          dey
          bne   -
+
          lda   #$4C
          sta   $8FC
          lda   #<@ProDOSCallbackx
