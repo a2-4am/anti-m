@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.6/anti-m-v1.6-2019-11-09.dsk)
-(version **1.6**, released **2019-11-09**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.7/anti-m-v1.7-2020-08-11.dsk)
+(version **1.7**, released **2020-08-11**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -49,6 +49,7 @@ then press `<RETURN>`. The game should boot normally.
 - Lazer Silk (Gebelli)
 - Lunar Leepers (On-Line Systems)
 - Neptune (Gebelli)
+- Odin (Odesta)
 - Orbitron (Sirius)
 - Pest Patrol (On-Line Systems)
 - Phaser Fire (Gebelli)
@@ -94,6 +95,11 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v1.7 - 2020-08-11
+
+- support "Odin"
+- fix a crash when booting "World Karate Championship"
 
 v1.6 - 2019-11-09
 
