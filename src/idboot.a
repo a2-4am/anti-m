@@ -10,6 +10,11 @@ IDBoot
          ldy   #$5C
          sty   @patch+1
          bcc   +
+
+; we found D5 AA 96 T00S00 D5 AA ..
+; check for weird Sensible Software 13-sector disk with D5 AA 96 sectors
+         cmp   #$B5
+         beq   ++
          lda   #$90
          sta   $867B
 
@@ -29,7 +34,7 @@ IDBoot
          bne   @patch
 
 ; and loop anyway in case it's a hybrid disk and we missed the D5 AA 96
-         dec   @retries
+++       dec   @retries
          bne   @patch
 
 ; found nothing but D5 AA B5, proceed as 13-sector
