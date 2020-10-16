@@ -207,10 +207,13 @@ Tracer13
          bcc   BeginTheBoot13
          jsr   IDBoot13
          bcc   BeginTheBoot13
+         jsr   IDSensible
+         bcc   BeginTheBoot13
 ; [execution falls through here]
 ; [and runs anyway]
 
 BeginTheBoot13
+         ldx   #$B3 ;Sensible Software fix
          ldy   $0300
          jmp   $0301
 
@@ -255,7 +258,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.7 by 4am            2020-08-11"
+         !text "Anti-M v1.8pre by 4am         2020-10-15"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
@@ -273,3 +276,4 @@ StringTable
          !src  "src/idprogame.a"
          !src  "src/idpersonal.a"
          !src  "src/idalphabeta.a"
+         !src  "src/idsensible.a"

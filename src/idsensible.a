@@ -1,0 +1,42 @@
+; Sensible Software tracer
+; written by qkumba
+;
+; tested on
+; - Sensible Speller
+;
+IDSensible
+         lda   #3
+         ldx   #1
+         ldy   #6
+         jsr   CompareMemory
+         !byte $29,$00 ;AND #$00
+         !byte $85,$3A ;STA $3A
+         !byte $9A     ;TXS
+         !byte $08     ;PHP
+         bcs   @exit
+
+; patch encoded code to regain control after it loads sectors into $400+
+         lda   #(<@pcallback) xor $99
+         sta   $03A3
+         lda   #(>@pcallback) xor $99
+         sta   $03A4
+
+@exit
+         rts
+
+@pcallback
+         !word @callback
+
+@callback
+
+; disable ROM checksum-failure branching
+         lda   $6CE
+         cmp   #$4C
+         bne   +
+         lda   #$60
+         sta   $6CE
+
+; and nibble check which fails occasionally
+         lda   #$2C
+         sta   $79B
++        jmp   ($0026)
