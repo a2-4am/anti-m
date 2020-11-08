@@ -193,6 +193,11 @@ Tracer
 ; [and runs anyway]
 
 BeginTheBoot
+         lda   #$CD ;Virtual II fixes
+         sta   $9D
+         sta   $A2
+         lda   #4
+         sta   $AC
          lda   #$11 ;Virtual II fix
          pha
          plp ;match boot-time flags and registers
