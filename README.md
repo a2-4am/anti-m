@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.7/anti-m-v1.7-2020-08-11.dsk)
-(version **1.7**, released **2020-08-11**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.8/anti-m-v1.8-2020-11-10.dsk)
+(version **1.8**, released **2020-11-10**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -57,6 +57,7 @@ then press `<RETURN>`. The game should boot normally.
 - Red Alert (Broderbund)
 - Russki Duck (Gebelli)
 - Seafox (Broderbund)
+- Sensible Speller (Sensible Software)
 - Serpentine (Broderbund) (*)
 - Sky Blazer (Broderbund)
 - Space Eggs (Sirius)
@@ -64,6 +65,7 @@ then press `<RETURN>`. The game should boot normally.
 - Star Blazer (Broderbund)
 - Star Thief (Cavalier)
 - Trick Shot (IDSI)
+- Typing Tutor (Microsoft)
 - Zenith (Gebelli)
 - all 13-sector disks (e.g. Epyx, Edu-Ware, many others)
 - all ProDOS disks
@@ -95,6 +97,12 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v1.8 - 2020-11-10
+
+- support "Sensible Speller"
+- support "Typing Tutor"
+- add some compatibility fixes for Virtual ][
 
 v1.7 - 2020-08-11
 
