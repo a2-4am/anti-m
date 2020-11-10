@@ -218,6 +218,11 @@ Tracer13
 ; [and runs anyway]
 
 BeginTheBoot13
+         lda   #$CD ;Virtual II fixes
+         sta   $9D
+         sta   $A2
+         lda   #4
+         sta   $AC
          ldx   #$B3 ;Sensible Software fix
          ldy   $0300
          jmp   $0301
@@ -263,7 +268,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.8pre by 4am         2020-10-15"
+         !text "Anti-M v1.8pre by 4am         2020-11-09"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
