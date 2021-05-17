@@ -57,7 +57,7 @@ tmp      =     $FC        ; byte
          cmp   #$60
          bne   Boot
          jsr   CheckDrive2
-         bne   Boot2
+         bcs   Boot2
 @showprompt
          jsr   HOME
          lda   MACHINEID
@@ -155,24 +155,102 @@ Boot
 CheckDrive2
          lda   $C0E9
          lda   $C0EB
-         ldy   #6
---       ldx   #$11
--        dex
-         bne   -
-         sec
-         sbc   #1
+         jsr   @spinup
+         jsr   @seek
+         ldx   #2
+         ldy   #0
+---      iny
+         bne   +
+         clc
+         dex
+         bmi   @driveoff
++
+-        lda   $C0EC
+         bpl   -
+--       cmp   #$D5
+         bne   ---
+-        lda   $C0EC
+         bpl   -
+         cmp   #$AA
          bne   --
+-        lda   $C0EC
+         bpl   -
+         cmp   #$96
+         bne   --
+
+@driveoff
+         lda   $C0E8
+         rts
+
+step=$fd
+phase=$fe
+tmptrk=$ff
+tmpsec=$3c
+@seek
+         ldy     #0
+         sty     step
+         sty     phase
+         lda     #$44
+         sta     tmptrk
+
+@copy_cur
+         lda     tmptrk
+         sta     tmpsec
+         sec
+         sbc     phase
+         beq     +++
+         bcs     +
+         eor     #$ff
+         inc     tmptrk
+         bcc     ++
++        sbc     #1
+         dec     tmptrk
+++       cmp     step
+         bcc     +
+         lda     step
++        cmp     #8
+         bcs     +
+         tay
+         sec
++        jsr     ++++
+         lda     step1, y
+         jsr     @delay
+         lda     tmpsec
+         clc
+         jsr     +++++
+         lda     step2, y
+         jsr     @delay
+         inc     step
+         bne     @copy_cur
++++      jsr     @delay
+         clc
+++++     lda     tmptrk
++++++    and     #3
+         rol
+         tax
+         lda     $C0E0, x
+         rts
+
+@spinup  ldy     #6
+-        jsr     @delay
          dey
-         bpl   --
-         lda   #$00
-         ldy   #$00
--        eor   $C0EC
-         dey
-         bne   -
-         sta   $C0E8
-         cmp   #$00
+         bpl     -
+
+@delay
+--       ldx     #$11
+-        dex
+         bne     -
+         inc     tmpsec
+         bne     +
+         inc     tmpsec+1
++        sec
+         sbc     #1
+         bne     --
 @knownret
          rts
+
+step1           !byte   1, $30, $28, $24, $20, $1e, $1d, $1c
+step2           !byte   $70, $2c, $26, $22, $1f, $1e, $1d, $1c
 
 Tracer
          jsr   IDBroderbund
@@ -223,7 +301,7 @@ BeginTheBoot13
          sta   $A2
          lda   #4
          sta   $AC
-         ldx   #$B3 ;Sensible Software fix
+         ldx   #$33 ;Sensible Software fix
          ldy   $0300
          jmp   $0301
 
@@ -268,7 +346,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.8    by 4am         2020-11-10"
+         !text "Anti-M v1.8pre by 4am         2020-12-27"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
