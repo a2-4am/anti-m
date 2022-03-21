@@ -318,6 +318,16 @@ IDBroderbund
          beq   @skip2a
          inc   $3D60
 @skip2a
++        ldy   $371D
+         cpy   $371F   
+         bne   +
+         dey
+         bne   +
+         lda   $371E
+         ora   $3720
+         ora   $3721
+         bne   +
+         inc   $371F                 ; select drive 2
 +        jmp   $3700                 ; let it goooo...
 
 @SpaceEggsCallback3 !pseudopc $300 {
