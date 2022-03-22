@@ -24,6 +24,7 @@
 ; - Phaser Fire (Gebelli)
 ; - Russki Duck (Gebelli)
 ; - Zenith (Gebelli)
+; - Disk Recovery (Sensible Software)
 ;
 IDBroderbund
 ; first stage is just a standard hybrid DOS 3.2/3.3 bootloader
@@ -269,6 +270,8 @@ IDBroderbund
          bne   @jmpdos
 
 @hookhybrid
+         lda   #$0C
+         sta   $300 ;Sensible Software page-wraparound fix
          lda   #$4C
          sta   $33C
          stx   $33D
@@ -315,6 +318,16 @@ IDBroderbund
          beq   @skip2a
          inc   $3D60
 @skip2a
++        ldy   $371D
+         cpy   $371F   
+         bne   +
+         dey
+         bne   +
+         lda   $371E
+         ora   $3720
+         ora   $3721
+         bne   +
+         inc   $371F                 ; select drive 2
 +        jmp   $3700                 ; let it goooo...
 
 @SpaceEggsCallback3 !pseudopc $300 {

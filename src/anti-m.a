@@ -6,7 +6,7 @@
 ;-------------------------------
 ; Anti-M
 ; a 4am hack
-; (c) 2019-2020 by 4am
+; (c) 2019-2022 by 4am
 ;
 ; Permission is hereby granted, free of charge, to any
 ; person obtaining a copy of this software and associated
@@ -157,7 +157,7 @@ CheckDrive2
          lda   $C0EB
          jsr   @spinup
          jsr   @seek
-         ldx   #2
+         ldx   #21
          ldy   #0
 ---      iny
          bne   +
@@ -240,9 +240,9 @@ tmpsec=$3c
 --       ldx     #$11
 -        dex
          bne     -
-         inc     tmpsec
+         inc     $46
          bne     +
-         inc     tmpsec+1
+         inc     $47
 +        sec
          sbc     #1
          bne     --
@@ -346,7 +346,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.8pre by 4am         2020-12-27"
+         !text "Anti-M v1.9pre by 4am         2022-03-20"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
