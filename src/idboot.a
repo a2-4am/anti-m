@@ -253,6 +253,18 @@ IDBoot13
          jmp   @dispatch
 
 @notdos32f
+         lda   #$7D
+         ldx   #$6E
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos32g
+         inc   $7D6F
+         jmp   @dispatch
+
+@notdos32g
 
 @dispatch
          lda   $d1d1 ;SMC
