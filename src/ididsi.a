@@ -101,6 +101,13 @@ IDIDSI
          lda   $d1d1,X ;SMC
          cmp   #$c0
          bne   @cb3jump
+         ldy   #<((@cb3_end + 1) & -2)
+-        tya
+         eor   $bf00,y
+         sta   $bf00,y
+         iny
+         iny
+         bne   -
          lda   #$BF
 @cb3patch2
          sta   $d1d1,X ;SMC
@@ -114,6 +121,7 @@ IDIDSI
          sta   $d1d1,X ;SMC
 @cb3jump
          jmp   (@cb3patch3+1)
+@cb3_end
 }
 @tracer3_e
 }

@@ -344,7 +344,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.9pre by 4am         2022-04-19"
+         !text "Anti-M v1.9pre by 4am         2023-05-15"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
