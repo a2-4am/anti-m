@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.8/anti-m-v1.8-2020-11-10.dsk)
-(version **1.8**, released **2020-11-10**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.9/anti-m-v1.9-2023-05-15.dsk)
+(version **1.9**, released **2023-05-15**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -60,6 +60,7 @@ then press `<RETURN>`. The game should boot normally.
 - Sensible Speller (Sensible Software)
 - Serpentine (Broderbund) (*)
 - Sky Blazer (Broderbund)
+- Space Adventure (Sierra Software)
 - Space Eggs (Sirius)
 - Space Quarks (Broderbund)
 - Star Blazer (Broderbund)
@@ -97,6 +98,12 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v1.9 - 2023-05-15
+
+- support "Disk Recovery"
+- support "Space Adventure"
+- fix drive 2 detection
 
 v1.8 - 2020-11-10
 
