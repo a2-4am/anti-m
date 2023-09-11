@@ -6,7 +6,7 @@
 ;-------------------------------
 ; Anti-M
 ; a 4am hack
-; (c) 2019-2022 by 4am
+; (c) 2019-2023 by 4am
 ;
 ; Permission is hereby granted, free of charge, to any
 ; person obtaining a copy of this software and associated
@@ -344,7 +344,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.9 by 4am            2023-05-15"
+         !text "Anti-M v1.10pre by 4am        2023-09-11"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
