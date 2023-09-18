@@ -2,8 +2,8 @@
 
 Boot any Apple II disk on any Apple II
 
-[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/download/v1.9/anti-m-v1.9-2023-05-15.dsk)
-(version **1.9**, released **2023-05-15**, runs on any 48K Apple II)
+[Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/latest/download/anti-m.dsk)
+(version **2.0**, released **2023-09-18**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -98,6 +98,12 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v2.0 - 2023-09-18
+
+- fix a crash when booting "Story Maker"
+- fix a crash when booting "Micro League Baseball"
+- further drive 2 fixes for AppleWin
 
 v1.9 - 2023-05-15
 
