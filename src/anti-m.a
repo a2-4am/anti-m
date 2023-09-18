@@ -175,6 +175,8 @@ CheckDrive2
          bne   --
 -        lda   $C0EC
          bpl   -
+         cmp   #$96
+         bne   --
 
 @driveoff
          lda   $C0E8
@@ -277,7 +279,7 @@ BeginTheBoot
          lda   #$11 ;Virtual II fix
          pha
          plp ;match boot-time flags and registers
-         lda   #1
+         lda   $800 ;might not be 1
          ldy   #0
          ldx   #$60
          jmp   $0801
@@ -344,7 +346,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v1.10pre by 4am        2023-09-11"
+         !text "Anti-M v1.10pre by 4am        2023-09-17"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
