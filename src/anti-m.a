@@ -6,7 +6,7 @@
 ;-------------------------------
 ; Anti-M
 ; a 4am hack
-; (c) 2019-2022 by 4am
+; (c) 2019-2023 by 4am
 ;
 ; Permission is hereby granted, free of charge, to any
 ; person obtaining a copy of this software and associated
@@ -175,6 +175,8 @@ CheckDrive2
          bne   --
 -        lda   $C0EC
          bpl   -
+         cmp   #$96
+         bne   --
 
 @driveoff
          lda   $C0E8
@@ -277,7 +279,7 @@ BeginTheBoot
          lda   #$11 ;Virtual II fix
          pha
          plp ;match boot-time flags and registers
-         lda   #1
+         lda   $800 ;might not be 1
          ldy   #0
          ldx   #$60
          jmp   $0801

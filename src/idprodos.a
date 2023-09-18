@@ -15,7 +15,10 @@ IDProDOS
          ldx   #$60
          stx   $801
          inc   $3D
-         jsr   $865C
+         jsr   $C65C
+         dec   $27
+         dec   $3D
+         dec   $3D
          lda   #$38
          sta   $801
          lda   #9
@@ -39,6 +42,7 @@ IDProDOS
          sta   $8FD
          lda   #>@ProDOSCallbackx
          sta   $8FE
+         clc
 @exit
          rts
 
