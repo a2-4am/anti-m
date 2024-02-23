@@ -3,7 +3,7 @@
 Boot any Apple II disk on any Apple II
 
 [Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/latest/download/anti-m.dsk)
-(version **2.0**, released **2023-09-18**, runs on any 48K Apple II)
+(version **2.1**, released **2024-02-23**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -98,6 +98,10 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v2.1 - 2024-02-23
+
+- fix detection of 13-sector disks (thanks John A. for the report)
 
 v2.0 - 2023-09-18
 
