@@ -175,7 +175,7 @@ CheckDrive2
          bne   --
 -        lda   $C0EC
          bpl   -
-         cmp   #$96
+         cmp   #$AD
          bne   --
 
 @driveoff
@@ -346,7 +346,7 @@ StringTable
          !word @mainmenu
 
 @header
-         !text "Anti-M v2.0 by 4am            2023-09-18"
+         !text "Anti-M v2.01 by 4am           2024-02-22"
          !text "________________________________________",$8D
          !text $8D,$8D,$8D,$8D,$8D,$8D,$8D,$8D,$00
 @mainmenu
