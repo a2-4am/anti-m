@@ -25,6 +25,7 @@
 ; - Russki Duck (Gebelli)
 ; - Zenith (Gebelli)
 ; - Disk Recovery (Sensible Software)
+; - ABM (MUSE)
 ;
 IDBroderbund
 ; first stage is just a standard hybrid DOS 3.2/3.3 bootloader
@@ -267,6 +268,10 @@ IDBroderbund
          ldx   #<@DOS33Callback
          ldy   #>@DOS33Callback
          cmp   #$B6
+         beq   @hookhybrid
+         ldx   #<@MUSECallback
+         ldy   #>@MUSECallback
+         cmp   #$76
          bne   @jmpdos
 
 @hookhybrid
@@ -439,6 +444,24 @@ IDBroderbund
 @skip2e
          ldx   #$60
          jmp   $B700
+
+@MUSECallback
+         lda   $85FF
+         beq   @skip2f
+         lda   #$7D
+         ldx   #$5F
+         ldy   #8
+         jsr   CompareMemory
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notmuse
+         inc   $7D60
+
+@notmuse
+@skip2f
+         ldx   #$60
+         jmp   $7700
 
 @StarThiefCallback2 !pseudopc $110 {
 @StarThiefCallback2x
