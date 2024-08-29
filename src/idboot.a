@@ -265,6 +265,21 @@ IDBoot13
          jmp   @dispatch
 
 @notdos32g
+         lda   #$20
+         ldx   #$E9
+         ldy   #8
+         jsr   @CompareMemoryRel
+         !byte $CC,$00,$04 ;CPY $0400
+         !byte $D0,$03     ;BNE *+5
+         !byte $4C,$01,$04 ;JMP $0401
+         bcs   @notssi
+         lda   #<@callbackssi
+         sta   $20EF
+         lda   #>@callbackssi
+         sta   $20F0
+         jmp   @dispatch
+
+@notssi
 
 @dispatch
          lda   $d1d1 ;SMC
@@ -273,6 +288,17 @@ IDBoot13
          pha
          ldx   #$60
          rts
+
+@callbackssi
+         lda   #<@callbackssi2
+         sta   $429
+         lda   #>@callbackssi2
+         sta   $42A
+         jmp   $401
+
+@callbackssi2
+         inc   $BD6F
+         jmp   $B700
 }
 
 PatchBoot13
