@@ -26,6 +26,7 @@
 ; - Zenith (Gebelli)
 ; - Disk Recovery (Sensible Software)
 ; - ABM (MUSE)
+; - Palace in Thunderland (Microlab)
 ;
 IDBroderbund
 ; first stage is just a standard hybrid DOS 3.2/3.3 bootloader
@@ -442,6 +443,28 @@ IDBroderbund
 
 @notdos33
 @skip2e
+         lda   #$BD
+         ldx   #$6E
+         ldy   #8
+         jsr   CompareMemory
+         !byte $BD,$8A,$C0 ;LDA $C08A,X
+         !byte $B0,$03     ;BCS *+5
+         !byte $BD,$8B,$C0 ;LDA $C08B,X
+         bcs   @notdos33b
+         lda   $85FF
+         beq   +
+         inc   $BD6F
++        ldx   #(@MicrolabCallback_e-@MicrolabCallback)-1
+-        lda   @MicrolabCallback,x
+         sta   $280,x
+         dex
+         bpl   -
+         sec
+         ror   $b7b8
+         lda   #2
+         sta   $b7b9
+
+@notdos33b
          ldx   #$60
          jmp   $B700
 
@@ -490,3 +513,17 @@ IDBroderbund
          jmp   $4D36
 }
 @BugAttackCallback2_e
+
+@MicrolabCallback !pseudopc $280 {
+         jsr   $BD00
+         lda   $B7EC
+         cmp   #$12
+         bne   +
+         lda   $B7ED
+         bne   +
+         lda   #$60
+         sta   $960F
++        clc
+         rts
+}
+@MicrolabCallback_e
