@@ -1,0 +1,27 @@
+; Sir-Tech tracer
+; written by qkumba
+;
+; tested on
+; - Star Maze
+;
+IDSirtech
+         lda   #8
+         ldx   #21
+         ldy   #12
+         jsr   CompareMemory
+         !byte $B9,$00,$0B      ;LDA $0B00,Y
+         !byte $99,$00,$07      ;STA $0700,Y
+         !byte $C8              ;INY
+         !byte $D0,$E5          ;BNE *-$19
+         !byte $4C,$21,$04      ;JMP $0421
+         bcs   @exit
+; replace undocumented opcode with real do-nothing
+         lda   #$EA
+         sta   $84B
+         lda   #$A9
+         sta   $85E
+         sta   $87C
+         clc
+
+@exit
+         rts
