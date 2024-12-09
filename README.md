@@ -3,7 +3,7 @@
 Boot any Apple II disk on any Apple II
 
 [Download latest Anti-M disk image](https://github.com/a2-4am/anti-m/releases/latest/download/anti-m.dsk)
-(version **2.2**, released **2024-02-27**, runs on any 48K Apple II)
+(version **2.3**, released **2024-12-08**, runs on any 48K Apple II)
 
 ## What is this?
 
@@ -98,6 +98,12 @@ it, you can press either joystick button (open-apple or closed-apple key) while
 launching Anti-M.
 
 ## History
+
+v2.3 - 2024-12-08
+
+- add support for "Computer Air Combat"
+- add support for "Palace in Thunderland"
+- add support for "Star Maze"
 
 v2.2 - 2024-02-27
 
