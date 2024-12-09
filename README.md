@@ -29,11 +29,15 @@ then press `<RETURN>`. The game should boot normally.
 
 ## Which games are supported?
 
+- ABM (MUSE)
 - Beer Run (Sirius)
 - Bug Attack (Cavalier)
 - Choplifter (Broderbund) (*)
+- Computer Air Combat (SSI)
 - Computer Foosball (Sirius)
 - David's Midnight Magic (Broderbund) (*)
+- Disk Recovery (Sensible Software)
+- Dogfight (Micro Lab)
 - Dueling Digits (Broderbund)
 - Eggs-It (Gebelli)
 - Frogger (On-Line Systems) (*)
@@ -51,6 +55,7 @@ then press `<RETURN>`. The game should boot normally.
 - Neptune (Gebelli)
 - Odin (Odesta)
 - Orbitron (Sirius)
+- Palace in Thunderland (Micro Lab)
 - Pest Patrol (On-Line Systems)
 - Phaser Fire (Gebelli)
 - Quadrant 6112 (Sensible Software)
@@ -68,6 +73,7 @@ then press `<RETURN>`. The game should boot normally.
 - Star Thief (Cavalier)
 - Trick Shot (IDSI)
 - Typing Tutor (Microsoft)
+- Ultracheckers (Malibu Microcomputing)
 - Zenith (Gebelli)
 - all 13-sector disks (e.g. Epyx, Edu-Ware, many others)
 - all ProDOS disks
