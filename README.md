@@ -64,6 +64,7 @@ then press `<RETURN>`. The game should boot normally.
 - Space Eggs (Sirius)
 - Space Quarks (Broderbund)
 - Star Blazer (Broderbund)
+- Star Maze (Sir-Tech)
 - Star Thief (Cavalier)
 - Trick Shot (IDSI)
 - Typing Tutor (Microsoft)
